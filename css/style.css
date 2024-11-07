@@ -1,0 +1,402 @@
+* {
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo {
+    text-decoration: none;
+    font-family: "Kalam", cursive;
+    font-size: 45px;
+}
+
+.icon_action {
+    font-size: 28px;
+    margin-right: 10px;
+}
+
+.header {
+    padding: 16px 32px;
+}
+
+.main {
+    max-width: 1008px;
+}
+
+.image_banner {
+    height: 640px;
+    object-fit: cover;
+}
+
+.group_member {
+    display: flex;
+    gap: 100px;
+}
+
+.nav_bar {
+    column-gap: 30px;
+}
+
+.nav_bar_item:hover a {
+    border-bottom: 1px solid black;
+}
+
+.menu_dropdown_one {
+    display: none;
+    position: relative;
+    z-index: 1;
+}
+
+.nav_bar_item:hover .menu_dropdown_one {
+    display: block;
+}
+
+.menu_dropdown_two {
+    display: none;
+    position: relative;
+    z-index: 1;
+}
+
+.nav_bar_item:hover .menu_dropdown_two {
+    display: block;
+    transform: translate(-150%, 0%);
+}
+
+.menu_dropdown_three {
+    display: none;
+    position: relative;
+    z-index: 1;
+}
+
+.nav_bar_item:hover .menu_dropdown_three {
+    display: block;
+    transform: translate(-250%, 0%);
+}
+
+.menu_dropdown_four {
+    display: none;
+    position: relative;
+    z-index: 1;
+}
+
+.nav_bar_item:hover .menu_dropdown_four {
+    display: block;
+    transform: translate(-350%, 0%);
+}
+
+.menu_dropdown_five {
+    display: none;
+    position: relative;
+    z-index: 1;
+}
+
+.nav_bar_item:hover .menu_dropdown_five {
+    display: block;
+    transform: translate(-890%, 0%);
+}
+
+.menu_dropdown_chirld {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 1109.376px;
+    height: 750px;
+    padding: 213.312px;
+    top: 50%;
+    transform: translate(-35%, 0%);
+}
+
+.menu_dropdown_chirld h2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.menu_dropdown_chirld ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu_dropdown_chirld ul li {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.menu_dropdown_chirld ul li a:hover {
+    color: red;
+}
+
+/* Cart_dropdown */
+.cart-container {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.cart-container a:hover {
+    text-decoration: underline;
+}
+
+.cart-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 382px;
+    padding: 12px 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    left: 0;
+    transform: translate(-68%, 0%);
+}
+
+.cart-container:hover .cart-dropdown {
+    display: block;
+}
+
+.cart-item {
+    display: flex;
+    column-gap: 25px;
+    row-gap: 1px;
+    margin-bottom: 8px;
+}
+
+.cart-total {
+    font-weight: bold;
+    text-align: right;
+    margin-top: 12px;
+}
+
+/* Main */
+
+
+/* Footer */
+
+.banner_footer {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+.banner_footer_item {
+    width: 202px;
+}
+
+.hd_footer {
+    font-size: 13px;
+}
+
+footer .banner_footer_item a {
+    color: #333;
+    /* Màu ban đầu của link */
+    transition: color 0.3s ease;
+}
+
+footer .banner_footer_item a:hover {
+    text-decoration: underline;
+}
+
+.read_more button {
+    border-bottom: 1px solid black;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    .header {
+        padding: 1rem;
+    }
+
+    .nav_bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav_bar_item {
+        margin-bottom: 1rem;
+    }
+
+    .menu_dropdown_one,
+    .menu_dropdown_two,
+    .menu_dropdown_three,
+    .menu_dropdown_four,
+    .menu_dropdown_five {
+        position: static;
+        width: 100%;
+    }
+
+    .banner_sale {
+        padding: 1rem;
+    }
+
+    .banner_footer {
+        grid-template-columns: 1fr;
+    }
+
+    .banner_footer_item {
+        margin-bottom: 2rem;
+    }
+
+    .image_banner {
+        height: 400px;
+    }
+
+    .drop_shadow {
+        bottom: 10px;
+    }
+
+    .drop_shadow h3 {
+        font-size: 1.5rem;
+    }
+
+    .drop_shadow a {
+        font-size: 0.9rem;
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+
+    /* Thay đổi CSS ở đây */
+    .nav_bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav_bar_item {
+        margin-bottom: 1rem;
+    }
+
+    .menu_dropdown_one,
+    .menu_dropdown_two,
+    .menu_dropdown_three,
+    .menu_dropdown_four,
+    .menu_dropdown_five {
+        position: static;
+        width: 100%;
+    }
+
+    .banner_footer {
+        grid-template-columns: 1fr;
+    }
+
+    .banner_footer_item {
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    .icon_action {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .drop_shadow {
+        bottom: 5px;
+    }
+
+    .drop_shadow p {
+        font-size: 0.9rem;
+    }
+
+    .drop_shadow h3 {
+        font-size: 1.5rem;
+    }
+
+    .drop_shadow a {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .hd_footer {
+        font-size: 1.1rem;
+    }
+
+    .banner_footer_item ul li a {
+        font-size: 0.9rem;
+    }
+
+    .banner_footer_item p {
+        font-size: 0.9rem;
+    }
+
+    .read_more button {
+        font-size: 0.9rem;
+    }
+}
+
+/* Cart.html */
+/* Customize the card appearance */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Adjust the product image size */
+.product-image {
+    max-width: 150px;
+}
+
+/* Customize the quantity input */
+.quantity-input {
+    width: 80px;
+    text-align: center;
+}
+
+/* Increase the font weight for the total price */
+.total-price {
+    font-weight: 600;
+}
+
+/* Add hover effect to the "Tiếp tục thanh toán" button */
+.btn-primary:hover {
+    background-color: #045de9;
+    border-color: #045de9;
+}
+
+.heart {
+    width: 70px;
+    height: 50px;
+    border: 1px solid black;
+}
+
+.heart:hover {
+    cursor: pointer;
+    color: red;
+}
+
+.form-group-cart input {
+    width: 70px;
+    height: 50px;
+    border: 1px solid black;
+}
+
+.discount_code {
+    display: flex;
+    column-gap: 91px;
+}
+
+.title_payment {
+    font-size: 13px;
+}
+
+.description_payment {
+    font-size: 13px;
+}
