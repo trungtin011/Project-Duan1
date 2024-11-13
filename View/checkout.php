@@ -1,4 +1,4 @@
-<html lang="en">
+<!-- <html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -21,7 +21,9 @@
         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Kalam:wght@300;400;700&family=Knewave&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../View/css/style.css">
-</head>
+</head> -->
+
+<?php include './header.php'; ?>
 
 <style>
     body {
@@ -54,7 +56,7 @@
         <br>
         <br>
         <div class="row justify-content-center gap-5">
-            <div class="col-md-5 col-lg-4 order-md-last bg-white p-4">
+            <div class="col-md-5 col-lg-4 order-md-last bg-white p-4 shadow-sm">
                 <div class="text-sm mb-3">
                     <div class="discount_code_checkout">
                         <span class="text-sm text-muted">Giảm giá</span>
@@ -120,7 +122,7 @@
                     Khoản Bảo Mật của H&M.
                 </p>
                 <button class="bg-black text-light w-100 py-2 text-md font-semibold btn-block mt-3"><a
-                        href="checkout.html">Hoàn Tất Ngay</a></button>
+                        href="../View/checkout_success.php">Hoàn Tất Ngay</a></button>
                 <p class="description_payment text-smm mt-4 font-semibold text-muted">
                     Chăm Sóc Khách Hàng <br>
                     Bạn cần hỗ trợ? Vui lòng liên hệ với bộ phận <a href="#" class="text-decoration-underline">Chăm Sóc
@@ -128,7 +130,7 @@
                 </p>
             </div>
             <!-- Địa chỉ thanh toán -->
-            <div class="col-md-7 col-lg-8 bg-white p-4" style="width: 703.987px;">
+            <div class="col-md-7 col-lg-8 bg-white p-4 shadow-sm" style="width: 703.987px;">
                 <h2 class="text-lg font-bold">Địa chỉ thanh toán</h2>
                 <h4 class="text-md mb-3 mt-3 font-bold">Địa chỉ thanh toán</h4>
                 <form class="needs-validation" novalidate>
@@ -147,80 +149,11 @@
                                 Please enter your shipping address.
                             </div>
                         </div>
-
+                        <!-- Tỉnh/Thành phố -->
                         <div class="col-md-12">
                             <label for="country" class="form-label text-sm font-semibold">Tỉnh/Thành phố</label>
                             <span style="color: red !important; display: inline; float: none;">*</span>
-                            <div>
-                                <select class="border border-dark w-100 p-2" id="city" aria-label=".form-select-sm">
-                                    <option value="" selected class="text-lg font-semibold text-muted">Vui lòng chọn
-                                        tỉnh
-                                    </option>
-                                    <option value="An Giang">An Giang</option>
-                                    <option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
-                                    <option value="Bình Dương">Bình Dương</option>
-                                    <option value="Bình Phước">Bình Phước</option>
-                                    <option value="Bình Thuận">Bình Thuận</option>
-                                    <option value="Bình Định">Bình Định</option>
-                                    <option value="Bạc Liêu">Bạc Liêu</option>
-                                    <option value="Bắc Giang">Bắc Giang</option>
-                                    <option value="Bắc Kạn">Bắc Kạn</option>
-                                    <option value="Bắc Ninh">Bắc Ninh</option>
-                                    <option value="Bến Tre">Bến Tre</option>
-                                    <option value="Cao Bằng">Cao Bằng</option>
-                                    <option value="Cà Mau">Cà Mau</option>
-                                    <option value="Cần Thơ">Cần Thơ</option>
-                                    <option value="Gia Lai">Gia Lai</option>
-                                    <option value="Hà Giang">Hà Giang</option>
-                                    <option value="Hà Nam">Hà Nam</option>
-                                    <option value="Hà Nội">Hà Nội</option>
-                                    <option value="Hà Tĩnh">Hà Tĩnh</option>
-                                    <option value="Hòa Bình">Hòa Bình</option>
-                                    <option value="Hưng Yên">Hưng Yên</option>
-                                    <option value="Hải Dương">Hải Dương</option>
-                                    <option value="Hải Phòng">Hải Phòng</option>
-                                    <option value="Hậu Giang">Hậu Giang</option>
-                                    <option value="Khánh Hòa">Khánh Hòa</option>
-                                    <option value="Kiên Giang">Kiên Giang</option>
-                                    <option value="Kon Tum">Kon Tum</option>
-                                    <option value="Lai Châu">Lai Châu</option>
-                                    <option value="Long An">Long An</option>
-                                    <option value="Lào Cai">Lào Cai</option>
-                                    <option value="Lâm Đồng">Lâm Đồng</option>
-                                    <option value="Lạng Sơn">Lạng Sơn</option>
-                                    <option value="Nam Định">Nam Định</option>
-                                    <option value="Nghệ An">Nghệ An</option>
-                                    <option value="Ninh Bình">Ninh Bình</option>
-                                    <option value="Ninh Thuận">Ninh Thuận</option>
-                                    <option value="Phú Thọ">Phú Thọ</option>
-                                    <option value="Phú Yên">Phú Yên</option>
-                                    <option value="Quảng Bình">Quảng Bình</option>
-                                    <option value="Quảng Nam">Quảng Nam</option>
-                                    <option value="Quảng Ngãi">Quảng Ngãi</option>
-                                    <option value="Quảng Ninh">Quảng Ninh</option>
-                                    <option value="Quảng Trị">Quảng Trị</option>
-                                    <option value="Sóc Trăng">Sóc Trăng</option>
-                                    <option value="Sơn La">Sơn La</option>
-                                    <option value="Thanh Hóa">Thanh Hóa</option>
-                                    <option value="Thái Bình">Thái Bình</option>
-                                    <option value="Thái Nguyên">Thái Nguyên</option>
-                                    <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
-                                    <option value="Tiền Giang">Tiền Giang</option>
-                                    <option value="Tp. Hồ Chí Minh">Tp. Hồ Chí Minh</option>
-                                    <option value="Trà Vinh">Trà Vinh</option>
-                                    <option value="Tuyên Quang">Tuyên Quang</option>
-                                    <option value="Tây Ninh">Tây Ninh</option>
-                                    <option value="Vĩnh Long">Vĩnh Long</option>
-                                    <option value="Vĩnh Phúc">Vĩnh Phúc</option>
-                                    <option value="Yên Bái">Yên Bái</option>
-                                    <option value="Điện Biên">Điện Biên</option>
-                                    <option value="Đà Nẵng">Đà Nẵng</option>
-                                    <option value="Đắk Lắk">Đắk Lắk</option>
-                                    <option value="Đắk Nông">Đắk Nông</option>
-                                    <option value="Đồng Nai">Đồng Nai</option>
-                                    <option value="Đồng Tháp">Đồng Tháp</option>
-                                </select>
-                            </div>
+                            <input type="text" class="border border-dark w-100 p-2" id="country" required>
                             <div class="invalid-feedback">
                                 Please select a valid country.
                             </div>
@@ -229,27 +162,7 @@
                         <div class="col-md-12">
                             <label for="country" class="form-label text-sm font-semibold">Quận/Huyện</label>
                             <span style="color: red !important; display: inline; float: none;">*</span>
-                            <div>
-                                <select class="border border-dark w-100 p-2" id="city" aria-label=".form-select-sm">
-                                    <option value="" selected class="text-lg font-semibold text-muted">Chọn Quận Huyện
-                                    </option>
-                                    <option value="Huyện Buôn Đôn">Huyện Buôn Đôn</option>
-                                    <option value="Huyện Cư Kuin">Huyện Cư Kuin</option>
-                                    <option value="Huyện Cư M'Gar">Huyện Cư M'Gar</option>
-                                    <option value="Huyện Ea H'Leo">Huyện Ea H'Leo</option>
-                                    <option value="Huyện Ea Kar">Huyện Ea Kar</option>
-                                    <option value="Huyện Ea Súp">Huyện Ea Súp</option>
-                                    <option value="Huyện Krông A Na">Huyện Krông A Na</option>
-                                    <option value="Huyện Krông Bông">Huyện Krông Bông</option>
-                                    <option value="Huyện Krông Búk">Huyện Krông Búk</option>
-                                    <option value="Huyện Krông Năng">Huyện Krông Năng</option>
-                                    <option value="Huyện Krông Pắk">Huyện Krông Pắk</option>
-                                    <option value="Huyện Lắk">Huyện Lắk</option>
-                                    <option value="Huyện M'Đrắk">Huyện M'Đrắk</option>
-                                    <option value="Thành Phố Buôn Ma Thuột">Thành Phố Buôn Ma Thuột</option>
-                                    <option value="Thị Xã Buôn Hồ">Thị Xã Buôn Hồ</option>
-                                </select>
-                            </div>
+                            <input type="text" class="border border-dark w-100 p-2" id="country" required>
                             <div class="invalid-feedback">
                                 Please select a valid country.
                             </div>
@@ -263,6 +176,7 @@
                                 Please enter your shipping address.
                             </div>
                         </div>
+                        <!-- Mã bưu điện -->
                         <div class="col-md-12">
                             <label for="zip" class="form-label text-sm font-semibold">Mã bưu điện</label>
                             <input type="text" class="border border-dark w-100 p-2" id="zip" placeholder="" required>
@@ -277,9 +191,9 @@
             </div>
         </div>
 
-        <div class="col-lg-7 order-md-last bg-white p-4 mt-4 ml-4" style="width: 704px;">
+        <div class="col-lg-7 order-md-last bg-white p-4 mt-4 ml-4 shadow-sm" style="width: 704px;">
             <div class="row">
-                <!-- Payment -->
+                <!-- Thanh toán -->
                 <h4 class="mb-4 text-lg font-bold">Thanh toán</h4>
                 <p class="text-sm font-semibold">Bạn muốn sử dụng phương thức thanh toán nào?</p>
 
@@ -305,7 +219,7 @@
                     </div>
                 </div>
 
-                <div class="row gy-3">
+                <div class="row gy-3 ">
                     <div class="col-md-12">
                         <div class="col-12">
                             <label for="address" class="form-label text-sm font-semibold">Tên</label>
@@ -408,8 +322,7 @@
         </div>
     </main>
 
-    <p class="text-center mt-5 text-sm text-muted"><i class="fas fa-lock mr-2 mb-5"></i>Tất cả dữ liệu sẽ được mã hóa
-    </p>
+    <p class="text-center mt-5 text-sm text-muted"><i class="fas fa-lock mr-2 mb-5"></i>Tất cả dữ liệu sẽ được mã hóa</p>
 </body>
 
 </html>

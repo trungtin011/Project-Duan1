@@ -1,5 +1,5 @@
 <!-- Header -->
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/View/header.php';?>
+<?php include '../View/header.php';?>
 <section class="banner_sale text-white text-center py-3 m-auto">
     <div class="group_member flex justify-center items-center">
         <div class="freeship_member">
@@ -12,6 +12,6 @@
     </div>
 </section>
 <!-- Main -->
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/View/home.php';?>
+<?php include '../View/home.php';?>
 <!-- Footer -->
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/View/footer.php';?>
+<?php include '../View/footer.php';?>

@@ -13,7 +13,7 @@
 <!-- Thân bài -->
 <main class="main m-auto">
     <div class="container my-5 p-0">
-        <h2 class="font-semibold text-sm text-center mb-4">Giỏ hàng</h2>
+        <h2 class="font-semibold text-md text-center mb-4">Giỏ hàng</h2>
         <div class="row">
             <div class="col-lg-8">
                 <div class="card-item mb-3">
@@ -57,7 +57,7 @@
                                 <span class="text-sm">Giảm giá</span>
                                 <button class="text-decoration-underline font-semibold" data-bs-toggle="modal" data-bs-target="#discountModal">Thêm mã giảm giá</button>
                             </div>
-                            <!-- Modal -->
+                            <!-- Modal Hiện input thêm mã giảm giá-->
                             <div class="modal fade" id="discountModal" tabindex="-1" aria-labelledby="discountModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                                     <div class="bg-white p-4 modal-content">
@@ -318,4 +318,5 @@
     </div>
 </main>
 
+<br><br>
 <?php require_once('footer.php') ?>
