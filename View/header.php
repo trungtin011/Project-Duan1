@@ -42,7 +42,7 @@
                 H<small class="text-sm">&amp;</small>M
             </a>
             <div class="flex items-center space-x-4">
-                <a class="text-md flex items-center" href="#">
+                <a class="text-md flex items-center" href="../View/login.php">
                     <i class="icon_action fa-solid fa-user"></i>
                     Đăng nhập
                 </a>
@@ -95,7 +95,7 @@
                     <div class="menu_dropdown_women px-4">
                         <h2 class="">Sản phẩm mới</h2>
                         <ul>
-                            <li><a href="#">Xem tất cả</a></li>
+                            <li><a href="../View/product.php">Xem tất cả</a></li>
                             <li><a href="#">Sport</a></li>
                         </ul>
                         <h2 class="mt-4">Xu hướng</h2>

@@ -34,7 +34,7 @@
                 <a href="forgot-password.html" class="text-sm text-gray-500">Quên mật khẩu?</a>
             </div>
             <button type="submit" class="w-full bg-black text-white py-2 rounded-md mb-4">Đăng nhập</button>
-            <a href="register.html"><button type="button" class="w-full border border-gray-300 text-black py-2 rounded-md">Đăng ký thành viên</button></a>
+            <a href="../View/register.php"><button type="button" class="w-full border border-gray-300 text-black py-2 rounded-md">Đăng ký thành viên</button></a>
         </form>
         <div class="text-center mt-4">
             <a href="#" class="text-sm text-gray-500">Tư cách thành viên H&M</a>
