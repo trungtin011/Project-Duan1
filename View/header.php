@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    $loginLink = "../View/login.php";  // Đường dẫn đến trang đăng nhập nếu chưa đăng nhập
+    $userName = "";  // Nếu chưa đăng nhập, không có tên người dùng
+    $avatar = "../assets/default-avatar.png";  // Ảnh đại diện mặc định
+} else {
+    $userName = $_SESSION['name'];  // Lấy tên người dùng từ session
+    $loginLink = "../View/account.php";  // Link đến trang cá nhân của người dùng
+    $logoutLink = "../View/logout.php";  // Đường dẫn đến trang đăng xuất
+    $avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : "../assets/default-avatar.png";  // Ảnh đại diện từ session hoặc ảnh mặc định
+}
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,39 +29,102 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/d70c32c211.js" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Kalam:wght@300;400;700&family=Knewave&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="../View/css/style.css">
+    <style>
+        .user-info {
+            position: relative;
+        }
+
+        .logout-btn {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background-color: #f44336;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .user-info:hover .logout-btn {
+            display: block;
+        }
+
+        .logout-btn:hover {
+            background-color: #e53935;
+        }
+
+        .user-info img {
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
+        }
+
+        .user-info a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .logout-btn1 {
+            display: none;
+            position: absolute;
+            top: 30px;
+            left: 0;
+            background-color: #f44336;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .user-info:hover .logout-btn1 {
+            display: block;
+        }
+
+        .logout-btn1:hover {
+            background-color: #e53935;
+        }
+
+
+    </style>
 </head>
 
-<body class="">
+<body>
+   
     <header class="header bg-white py-4 shadow">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-4">
-                <a class="text-md" href="#">
-                    Thời trang bền vững
-                </a>
-                <a class="text-md" href="#">
-                    Dịch vụ & Cửa hàng
-                </a>
-                <a class="text-md" href="#">
-                    Bản tin
-                </a>
-                <a class="text-md" href="#">
-                    eco
-                </a>
+                <a class="text-md" href="#">Thời trang bền vững</a>
+                <a class="text-md" href="../View/product.php">Dịch vụ & Cửa hàng</a>
+                <a class="text-md" href="#">Bản tin</a>
+                <a class="text-md" href="#">eco</a>
             </div>
             <a class="logo font-bold text-red-600" href="../index.php">
                 H<small class="text-sm">&amp;</small>M
             </a>
             <div class="flex items-center space-x-4">
-                <a class="text-md flex items-center" href="#">
-                    <i class="icon_action fa-solid fa-user"></i>
-                    Đăng nhập
-                </a>
+                <div class="user-info">
+                    <a class="text-md flex items-center" href="<?php echo $userName ? '#' : $loginLink; ?>">
+                        <?php if ($userName): ?>
+                            <img src="<?php echo $avatar; ?>" alt="Avatar">
+                            Chào, <?php echo htmlspecialchars($userName); ?>
+                        <?php else: ?>
+                            <i class="icon_action fa-solid fa-user"></i>
+                            Đăng nhập
+                        <?php endif; ?>
+                    </a>
+
+                    <?php if ($userName): ?>
+                        <a href="<?php echo $loginLink; ?>" class="logout-btn1">Thông tin</a>
+                        <a href="<?php echo $logoutLink; ?>" class="logout-btn">Đăng xuất</a>
+                    <?php endif; ?>
+                </div>
                 <a class="text-md flex items-center" href="#">
                     <i class="icon_action fa-solid fa-heart"></i>
                     Yêu thích
@@ -55,39 +134,15 @@
                         <i class="icon_action fa-solid fa-bag-shopping"></i>
                         Giỏ hàng (1)
                     </a>
-                    <div class="cart-dropdown left-0 shadow-lg rounded pt-4 pb-5 p-4">
-                        <div class="cart-item flex mb-3">
-                            <img class="cart-item-image pt-0 pb-0" src="https://images.pexels.com/photos/2916814/pexels-photo-2916814.jpeg?cs=srgb&dl=pexels-vanyaoboleninov-2916814.jpg&fm=jpg" width="99" height="88" alt="">
-                            <div class="cart-item-info p-0">
-                                <span class="cart-item-title">Áo polo COOLMAX® Slim Fit</span>
-                                <span class="cart-item-quantity text-sm flex gap-4 mt-2">Số lượng<p>1</p></span>
-                                <span class="cart-item-color text-sm flex gap-4">Màu sắc<p>Màu Đen</p></span>
-                                <span class="cart-item-size text-sm flex gap-4">Kích cỡ<p>S</p></span>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="cart-item flex justify-between mt-3">
-                            <p class="cart-item-title text-sm">Giá trị đơn hàng</p>
-                            <span class="cart-item-price text-sm">đ399,000</span>
-                        </div>
-                        <div class="cart-item flex justify-between mb-3">
-                            <p class="cart-item-title text-sm">Phí vận chuyển</p>
-                            <span class="cart-item-price text-sm">đ50,000</span>
-                        </div>
-                        <hr>
-                        <div class="cart-total font-bold text-right flex justify-between">
-                            <p>Tổng:</p>
-                            <p>đ448,000</p>
-                        </div>
-                        <br>
-                        <a href="../View/checkout.php" class="block text-center py-2 text-decoration-none font-bold border bg-black text-white">Thanh toán</a>
-                        <a href="../View/cart.php" class="block text-center py-2 mt-2 font-bold border border-black">Giỏ hàng</a>
-                    </div>
                 </div>
             </div>
         </div>
     </header>
-    <nav class="nav_bar bg-white py-4 flex justify-center items-center m-auto">
+</body>
+
+</html>
+
+<nav class="nav_bar bg-white py-4 flex justify-center items-center m-auto">
         <div class="nav_bar_item">
             <a class="text-lg font-semibold" href="#">Nữ</a>
             <div class="menu_dropdown_one">
