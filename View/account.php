@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 if (!isset($_SESSION['user_id'])) {
     $loginLink = "../View/login.php";  // Đường dẫn đến trang đăng nhập nếu chưa đăng nhập
@@ -11,10 +12,15 @@ if (!isset($_SESSION['user_id'])) {
 }
 ?>
 <?php require_once('header.php'); ?>
+=======
+<?php require_once('header.php'); ?>
+
+>>>>>>> beeacc389634d3f9e1aa715f70279f9fcd66268b
 <div class="container flex justify-content-center">
     <!-- Cột bên trái -->
     <div class="sidebar col-3">
         <div class="container my-3 p-0 flex justify-content-between items-center">
+<<<<<<< HEAD
             <h2 class="font-bold text-lg">
             <div class="user-info">
                     <a class="text-md flex items-center" href="<?php echo $userName ? '#' : $loginLink; ?>">
@@ -28,6 +34,9 @@ if (!isset($_SESSION['user_id'])) {
                     </a>
                 </div>
             </h2>
+=======
+            <h2 class="font-bold text-lg">Xin chào Y Khoa</h2>
+>>>>>>> beeacc389634d3f9e1aa715f70279f9fcd66268b
             <!-- Icon setting -->
             <i class="fa-solid fa-gear mr-3 text-2xl"></i>
         </div>
@@ -125,8 +134,12 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
                 <i class="fas fa-chevron-right"></i>
             </button>
+<<<<<<< HEAD
             <?php if ($userName): ?>
             <a href="logout.php" class="list-group-item list-group-item-action flex justify-between items-center py-3 text-danger">
+=======
+            <a href="login.html" class="list-group-item list-group-item-action flex justify-between items-center py-3 text-danger">
+>>>>>>> beeacc389634d3f9e1aa715f70279f9fcd66268b
                 <div class="flex gap-3">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" focusable="false">
@@ -138,11 +151,25 @@ if (!isset($_SESSION['user_id'])) {
                     <span>Đăng xuất</span>
                 </div>
             </a>
+<<<<<<< HEAD
             <?php endif; ?>
         </div>
     </div>
+=======
+        </div>
+    </div>
+
+    <!-- Cột bên phải -->
+     <!-- Để hiện các trang -->
+>>>>>>> beeacc389634d3f9e1aa715f70279f9fcd66268b
     <div class="sidebar col-6">
         <?php include './account_content.php'?>
     </div>  
 </div>
+<<<<<<< HEAD
 <?php include './footer.php'; ?>    
+=======
+
+<!-- Footer -->
+<?php include './footer.php'; ?>
+>>>>>>> beeacc389634d3f9e1aa715f70279f9fcd66268b

@@ -57,6 +57,10 @@
                                 <span class="text-sm">Giảm giá</span>
                                 <button class="text-decoration-underline font-semibold" data-bs-toggle="modal" data-bs-target="#discountModal">Thêm mã giảm giá</button>
                             </div>
+<<<<<<< HEAD
+=======
+                            <!-- Modal Hiện input thêm mã giảm giá-->
+>>>>>>> beeacc389634d3f9e1aa715f70279f9fcd66268b
                             <div class="modal fade" id="discountModal" tabindex="-1" aria-labelledby="discountModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                                     <div class="bg-white p-4 modal-content">

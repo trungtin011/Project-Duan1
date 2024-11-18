@@ -109,6 +109,7 @@ if (!isset($_SESSION['user_id'])) {
                 H<small class="text-sm">&amp;</small>M
             </a>
             <div class="flex items-center space-x-4">
+<<<<<<< HEAD
                 <div class="user-info">
                     <a class="text-md flex items-center" href="<?php echo $userName ? '#' : $loginLink; ?>">
                         <?php if ($userName): ?>
@@ -125,6 +126,12 @@ if (!isset($_SESSION['user_id'])) {
                         <a href="<?php echo $logoutLink; ?>" class="logout-btn">Đăng xuất</a>
                     <?php endif; ?>
                 </div>
+=======
+                <a class="text-md flex items-center" href="../View/login.php">
+                    <i class="icon_action fa-solid fa-user"></i>
+                    Đăng nhập
+                </a>
+>>>>>>> beeacc389634d3f9e1aa715f70279f9fcd66268b
                 <a class="text-md flex items-center" href="#">
                     <i class="icon_action fa-solid fa-heart"></i>
                     Yêu thích
@@ -150,7 +157,7 @@ if (!isset($_SESSION['user_id'])) {
                     <div class="menu_dropdown_women px-4">
                         <h2 class="">Sản phẩm mới</h2>
                         <ul>
-                            <li><a href="#">Xem tất cả</a></li>
+                            <li><a href="../View/product.php">Xem tất cả</a></li>
                             <li><a href="#">Sport</a></li>
                         </ul>
                         <h2 class="mt-4">Xu hướng</h2>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 include "../Model/DBUntil.php";
 
@@ -8,6 +9,8 @@ $products = $db->select($sql_products);
 $sql_categories = "SELECT * FROM categories";
 $categories = $db->select($sql_categories); 
 ?>
+=======
+>>>>>>> beeacc389634d3f9e1aa715f70279f9fcd66268b
 <?php require_once('header.php')?>
     <!-- Thân bài -->
     <main class="mt-5 mb-5">

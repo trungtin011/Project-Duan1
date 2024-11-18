@@ -114,9 +114,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
             <?php endif; ?>
             <button type="submit" class="w-full bg-black text-white py-2 rounded-md mb-4">Đăng nhập</button>
+<<<<<<< HEAD
             <a href="register.php" class="w-full border border-gray-300 text-black py-2 rounded-md text-center block">
                 Đăng ký thành viên
             </a>
+=======
+            <a href="../View/register.php"><button type="button" class="w-full border border-gray-300 text-black py-2 rounded-md">Đăng ký thành viên</button></a>
+>>>>>>> beeacc389634d3f9e1aa715f70279f9fcd66268b
         </form>
         <div class="text-center mt-4">
             <a href="#" class="text-sm text-gray-500">Tư cách thành viên H&M</a>
