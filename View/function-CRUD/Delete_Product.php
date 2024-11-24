@@ -10,12 +10,12 @@ if ($product_id) {
     
     // Kiểm tra kết quả trả về từ phương thức delete
     if ($result) {
-        header("Location: ../admin_dashboard.php?page=product&success=delete");
+        header("Location: ../admin_dashboard.php?action=admin_product&success=delete");
     } else {
-        header("Location: ../admin_dashboard.php?page=product&error=delete");
+        header("Location: ../admin_dashboard.php?action=admin_product&error=delete");
     }
 } else {
-    header("Location: ../admin_dashboard.php?page=product&error=invalid_id");
+    header("Location: ../admin_dashboard.php?action=admin_product&error=invalid_id");
 }
 
 ?>

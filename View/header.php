@@ -1,15 +1,18 @@
 <?php
+include "../global.php";
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    $loginLink = "../View/login.php";  // Đường dẫn đến trang đăng nhập nếu chưa đăng nhập
-    $userName = "";  // Nếu chưa đăng nhập, không có tên người dùng
-    $avatar = "../assets/default-avatar.png";  // Ảnh đại diện mặc định
+    $loginLink = "../View/login.php";
+    $userName = "";
+    $avatar = "../assets/default-avatar.png";
 } else {
-    $userName = $_SESSION['name'];  // Lấy tên người dùng từ session
-    $loginLink = "../View/account.php";  // Link đến trang cá nhân của người dùng
-    $logoutLink = "../View/logout.php";  // Đường dẫn đến trang đăng xuất
-    $avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : "../assets/default-avatar.png";  // Ảnh đại diện từ session hoặc ảnh mặc định
+    $userName = $_SESSION['name'];
+    $loginLink = "../View/account.php";
+    $logoutLink = "../View/logout.php";
+    $avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : "../assets/default-avatar.png";
+    // Thêm kiểm tra role admin
+    $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 }
 ?>
 
@@ -34,20 +37,23 @@ if (!isset($_SESSION['user_id'])) {
     <style>
         .user-info {
             position: relative;
+            cursor: pointer;
+        }
+
+        .btn_action {
+            width: 100%;
+            position: absolute;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
         }
 
         .logout-btn {
             display: none;
-            position: absolute;
-            top: 60px;
-            left: 0;
-            background-color: #f44336;
             color: white;
             padding: 5px 15px;
-            border-radius: 5px;
             font-size: 14px;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
         .user-info:hover .logout-btn {
@@ -55,7 +61,8 @@ if (!isset($_SESSION['user_id'])) {
         }
 
         .logout-btn:hover {
-            background-color: #e53935;
+            background-color: whitesmoke;
+            color: red;
         }
 
         .user-info img {
@@ -72,16 +79,10 @@ if (!isset($_SESSION['user_id'])) {
 
         .logout-btn1 {
             display: none;
-            position: absolute;
-            top: 30px;
-            left: 0;
-            background-color: #f44336;
             color: white;
             padding: 5px 15px;
-            border-radius: 5px;
             font-size: 14px;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
         .user-info:hover .logout-btn1 {
@@ -89,22 +90,21 @@ if (!isset($_SESSION['user_id'])) {
         }
 
         .logout-btn1:hover {
-            background-color: #e53935;
+            background-color: whitesmoke;
+            color: red;
         }
-
-
     </style>
 </head>
 
 <body>
-   
+
     <header class="header bg-white py-4 shadow">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-4">
-                <a class="text-md" href="#">Thời trang bền vững</a>
-                <a class="text-md" href="../View/product.php">Dịch vụ & Cửa hàng</a>
-                <a class="text-md" href="#">Bản tin</a>
-                <a class="text-md" href="#">eco</a>
+                <a class="text-md" href="<?= $CONTENT_URL ?>/index.php">Thời trang bền vững</a>
+                <a class="text-md" href="<?= $CONTENT_URL ?>/product.php">Dịch vụ & Cửa hàng</a>
+                <a class="text-md" href="<?= $CONTENT_URL ?>/news.php?>">Bản tin</a>
+                <a class="text-md" href="<?= $CONTENT_URL ?>/eco.php">eco</a>
             </div>
             <a class="logo font-bold text-red-600" href="../index.php">
                 H<small class="text-sm">&amp;</small>M
@@ -120,11 +120,27 @@ if (!isset($_SESSION['user_id'])) {
                             Đăng nhập
                         <?php endif; ?>
                     </a>
-
-                    <?php if ($userName): ?>
-                        <a href="<?php echo $loginLink; ?>" class="logout-btn1">Thông tin</a>
-                        <a href="<?php echo $logoutLink; ?>" class="logout-btn">Đăng xuất</a>
-                    <?php endif; ?>
+                    <div class="btn_action shadow rounded">
+                        <?php if ($userName): ?>
+                            <?php if (isset($isAdmin) && $isAdmin): ?>
+                                <!-- Nếu là admin chỉ hiện 2 nút -->
+                                <a href="../View/admin_dashboard.php" class="logout-btn1">
+                                    Quản trị
+                                </a>
+                                <a href="<?php echo $logoutLink; ?>" class="logout-btn">
+                                    Đăng xuất
+                                </a>
+                            <?php else: ?>
+                                <!-- Nếu là user thường hiện thông tin và đăng xuất -->
+                                <a href="<?php echo $loginLink; ?>" class="logout-btn1">
+                                    Thông tin
+                                </a>
+                                <a href="<?php echo $logoutLink; ?>" class="logout-btn">
+                                    Đăng xuất
+                                </a>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
                 <a class="text-md flex items-center" href="#">
                     <i class="icon_action fa-solid fa-heart"></i>
@@ -172,362 +188,362 @@ if (!isset($_SESSION['user_id'])) {
 </html>
 
 <nav class="nav_bar bg-white py-4 flex justify-center items-center m-auto">
-        <div class="nav_bar_item">
-            <a class="text-lg font-semibold" href="#">Nữ</a>
-            <div class="menu_dropdown_one">
-                <div class="menu_dropdown_chirld bg-white pt-4 rounded">
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li><a href="../View/product.php">Xem tất cả</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li><a href="#">Xu hướng mới nhất</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li><a href="#">Giày thể thao</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
+    <div class="nav_bar_item">
+        <a class="text-lg font-semibold" href="#">Nữ</a>
+        <div class="menu_dropdown_one">
+            <div class="menu_dropdown_chirld bg-white pt-4 rounded">
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li><a href="../View/product.php">Xem tất cả</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li><a href="#">Xu hướng mới nhất</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li><a href="#">Giày thể thao</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="nav_bar_item">
-            <a class="text-lg font-semibold" href="#">Nam</a>
-            <div class="menu_dropdown_two">
-                <div class="menu_dropdown_chirld bg-white pt-4 rounded">
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li><a href="#">Xem tất cả</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li><a href="#">Xu hướng mới nhất</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li><a href="#">Giày thể thao</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
+    </div>
+    <div class="nav_bar_item">
+        <a class="text-lg font-semibold" href="#">Nam</a>
+        <div class="menu_dropdown_two">
+            <div class="menu_dropdown_chirld bg-white pt-4 rounded">
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li><a href="#">Xem tất cả</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li><a href="#">Xu hướng mới nhất</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li><a href="#">Giày thể thao</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="nav_bar_item">
-            <a class="text-lg font-semibold" href="#">Em bé</a>
-            <div class="menu_dropdown_three">
-                <div class="menu_dropdown_chirld bg-white pt-4 rounded">
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li><a href="#">Xem tất cả</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li><a href="#">Xu hướng mới nhất</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li><a href="#">Giày thể thao</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_women px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
+    </div>
+    <div class="nav_bar_item">
+        <a class="text-lg font-semibold" href="#">Em bé</a>
+        <div class="menu_dropdown_three">
+            <div class="menu_dropdown_chirld bg-white pt-4 rounded">
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li><a href="#">Xem tất cả</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li><a href="#">Xu hướng mới nhất</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li><a href="#">Giày thể thao</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_women px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="nav_bar_item">
-            <a class="text-lg font-semibold" href="#">Trẻ em</a>
-            <div class="menu_dropdown_four">
-                <div class="menu_dropdown_chirld bg-white pt-4 rounded">
-                    <div class="menu_dropdown_chirldren px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li><a href="#">Xem tất cả</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li><a href="#">Xu hướng mới nhất</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li><a href="#">Giày thể thao</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_chirldren px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_chirldren px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
+    </div>
+    <div class="nav_bar_item">
+        <a class="text-lg font-semibold" href="#">Trẻ em</a>
+        <div class="menu_dropdown_four">
+            <div class="menu_dropdown_chirld bg-white pt-4 rounded">
+                <div class="menu_dropdown_chirldren px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li><a href="#">Xem tất cả</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li><a href="#">Xu hướng mới nhất</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li><a href="#">Giày thể thao</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_chirldren px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_chirldren px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="nav_bar_item">
-            <a class="text-lg font-semibold" href="#">Sale</a>
-            <div class="menu_dropdown_five">
-                <div class="menu_dropdown_chirld bg-white pt-4 rounded">
-                    <div class="menu_dropdown_sale px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li><a href="#">Xem tất cả</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li><a href="#">Xu hướng mới nhất</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li><a href="#">Giày thể thao</a></li>
-                            <li><a href="#">Sport</a></li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_sale px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_sale px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
-                    <div class="menu_dropdown_sale px-4">
-                        <h2 class="">Sản phẩm mới</h2>
-                        <ul>
-                            <li>Xem tất cả</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Xu hướng</h2>
-                        <ul>
-                            <li>Xu hướng mới nhất</li>
-                            <li>Sport</li>
-                        </ul>
-                        <h2 class="mt-4">Giày</h2>
-                        <ul>
-                            <li>Giày thể thao</li>
-                            <li>Sport</li>
-                        </ul>
-                    </div>
+    </div>
+    <div class="nav_bar_item">
+        <a class="text-lg font-semibold" href="#">Sale</a>
+        <div class="menu_dropdown_five">
+            <div class="menu_dropdown_chirld bg-white pt-4 rounded">
+                <div class="menu_dropdown_sale px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li><a href="#">Xem tất cả</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li><a href="#">Xu hướng mới nhất</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li><a href="#">Giày thể thao</a></li>
+                        <li><a href="#">Sport</a></li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_sale px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_sale px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
+                </div>
+                <div class="menu_dropdown_sale px-4">
+                    <h2 class="">Sản phẩm mới</h2>
+                    <ul>
+                        <li>Xem tất cả</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Xu hướng</h2>
+                    <ul>
+                        <li>Xu hướng mới nhất</li>
+                        <li>Sport</li>
+                    </ul>
+                    <h2 class="mt-4">Giày</h2>
+                    <ul>
+                        <li>Giày thể thao</li>
+                        <li>Sport</li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>

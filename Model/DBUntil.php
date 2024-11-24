@@ -156,4 +156,8 @@ class DBUntil
     {
         return $this->conn;
     }
+
+    public function getLastInsertId() {
+        return $this->conn->lastInsertId(); // Trả về ID của bản ghi vừa được thêm vào
+    }
 }

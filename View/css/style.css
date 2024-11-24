@@ -663,7 +663,7 @@ footer .banner_footer_item a:hover {
 
 /* Product.html */
 .sidebar {
-    padding: 20px;
+    padding: 20px;  
 }
 
 .list-group-item {
@@ -682,10 +682,6 @@ footer .banner_footer_item a:hover {
     object-fit: cover;
 }
 
-/* .li_color {
-
-} */
-
 .color_product {
     display: inline-block;
     width: 10px;
@@ -693,6 +689,7 @@ footer .banner_footer_item a:hover {
     /* padding: 0 5px; */
     border: 1px solid #000000;
 }
+
 
 .list-group-item:hover {
     color: red;
@@ -813,3 +810,40 @@ ul .product_item:hover {
     background-color: red;
     border: none;
 }
+
+
+/* Menu tổng quan */
+.nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    text-decoration: none;
+    color: #dc3545; /* Màu chữ đỏ */
+    background-color: #000; /* Màu nền menu */
+    border: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+    background-color: #1a1a1a; /* Màu nền khi hover */
+}
+
+/* Trạng thái active */
+.nav-link.active {
+    background-color: #f8f9fa; /* Màu nền sáng */
+    color: #dc3545; /* Màu chữ đỏ */
+    font-weight: bold;
+}
+
+/* Tùy chỉnh icon */
+.nav-link svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: currentColor;
+}
+
+.nav-link i {
+    margin-left: auto;
+}
+
