@@ -141,7 +141,7 @@ if (!isset($_SESSION['user_id'])) {
 
 <body>
     <!-- Main Content -->
-    <div class="container p-0">
+    <div class="p-0">
         <div class="d-flex justify-content-center">
             <nav class="col-md-3 p-3 d-md-block sidebar bg-black h-[100vh]">
                 <!-- <div class="container my-3 p-0 flex justify-content-between items-center ">
@@ -151,7 +151,7 @@ if (!isset($_SESSION['user_id'])) {
                         <h1 class="text-white h1">Admin Dashboard</h1>
                     </div>
                     <ul class="nav flex-column list-group">
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <?php include '../Model/button_content.php' ?>
                         </li>
                         <?php if ($userName): ?>
@@ -214,8 +214,6 @@ if (!isset($_SESSION['user_id'])) {
                     <?php include '../Model/show_content.php' ?>
                 </div>
             </main>
-
-
         </div>
     </div>
 </body>

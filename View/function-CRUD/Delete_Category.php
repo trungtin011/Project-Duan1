@@ -1,18 +1,24 @@
-<!-- Xóa danh mục -->
 <?php
 include '../../Model/DBUntil.php';
 
 $db = new DBUntil();
 $category_id = $_GET['id'] ?? null;
 
+$response = ['success' => false, 'message' => 'Lỗi không xác định'];
+
 if ($category_id) {
+    // Thực hiện xóa
     $result = $db->delete("categories", "category_id = :category_id", [':category_id' => $category_id]);
 
     if ($result) {
-        header("Location: ../admin_dashboard.php?action=admin_category&success=delete");
+        $response = ['success' => true, 'message' => 'Danh mục đã được xóa thành công'];
     } else {
-        header("Location: ../admin_dashboard.php?action=admin_category&error=delete");
+        $response = ['success' => false, 'message' => 'Xóa danh mục thất bại'];
     }
 } else {
-    header("Location: ../admin_dashboard.php?action=admin_category&error=delete");
+    $response = ['success' => false, 'message' => 'Không tìm thấy ID danh mục'];
 }
+
+// Trả về JSON
+echo json_encode($response);
+?>

@@ -819,24 +819,22 @@ ul .product_item:hover {
     justify-content: space-between;
     padding: 1rem;
     text-decoration: none;
-    color: #dc3545; /* Màu chữ đỏ */
-    background-color: #000; /* Màu nền menu */
+    color: #dc3545;
+    background-color: #000;
     border: none;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .nav-link:hover {
-    background-color: #1a1a1a; /* Màu nền khi hover */
+    background-color: #1a1a1a;
 }
 
-/* Trạng thái active */
 .nav-link.active {
-    background-color: #f8f9fa; /* Màu nền sáng */
-    color: #dc3545; /* Màu chữ đỏ */
+    background-color: #f8f9fa;
+    color: #dc3545;
     font-weight: bold;
 }
 
-/* Tùy chỉnh icon */
 .nav-link svg {
     width: 1.5rem;
     height: 1.5rem;

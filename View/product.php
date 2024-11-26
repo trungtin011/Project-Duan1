@@ -289,16 +289,17 @@ $categories = $db->select($sql_categories);
                     <div class="row">
                         <?php foreach ($products as $product) { ?>
                             <div class="col-12 col-md-3 mb-3">
-                                <a href="product_detail.php?product_id=<?php echo $product['product_id']; ?>">
+                                <a href="product_detail.php?id=<?php echo $product['product_id']; ?>">
+                                    <div>
+                                        <img src="<?= $product['image'] ?>" class="w-[300px] h-[450px]" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                    </div>
+                                    <div class="py-3">
+                                        <h5 class="card-title font-semibold"><?php echo htmlspecialchars($product['name']); ?></h5>
+                                        <p class="card-text text-sm font-semibold">₫<?php echo number_format($product['price'], 0, ',', '.'); ?></p>
+                                        <!-- màu -->
+                                        <p class="card-text text-sm">Màu: <?php echo $product['color']; ?></p>
+                                    </div>
                                 </a>
-                                <img src="<?= $product['image'] ?>" class="w-[300px] h-[450px]" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                                <div class="card-body">
-                                    <h5 class="card-title font-semibold"><?php echo htmlspecialchars($product['name']); ?></h5>
-                                    <p class="card-text text-sm font-semibold">₫<?php echo number_format($product['price'], 0, ',', '.'); ?></p>
-                                    <!-- màu -->
-                                    <p class="card-text text-sm">Màu: <?php echo $product['color']; ?></p>
-                                </div>
-
                             </div>
                         <?php } ?>
                     </div>

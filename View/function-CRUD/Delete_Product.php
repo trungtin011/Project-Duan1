@@ -2,20 +2,37 @@
 include '../../Model/DBUntil.php';
 
 $db = new DBUntil();
-$product_id = $_GET['id'] ?? null;
+$response = ['success' => false, 'message' => ''];
 
-if ($product_id) {
-    // Sử dụng phương thức delete để xóa sản phẩm
-    $result = $db->delete("products", "product_id = :product_id", [':product_id' => $product_id]);
-    
-    // Kiểm tra kết quả trả về từ phương thức delete
-    if ($result) {
-        header("Location: ../admin_dashboard.php?action=admin_product&success=delete");
-    } else {
-        header("Location: ../admin_dashboard.php?action=admin_product&error=delete");
+if (isset($_GET['id'])) {
+    $productId = $_GET['id'];
+
+    try {
+        // Kiểm tra sản phẩm có tồn tại
+        $sqlCheck = "SELECT * FROM products WHERE product_id = ?";
+        $product = $db->select($sqlCheck, [$productId]);
+
+        if (empty($product)) {
+            $response['message'] = "Sản phẩm không tồn tại!";
+        } else {
+            // Xóa sản phẩm
+            $sqlDelete = "DELETE FROM products WHERE product_id = ?";
+            $result = $db->execute($sqlDelete, [$productId]);
+
+            if ($result) {
+                $response['success'] = true;
+                $response['message'] = "Sản phẩm đã được xóa thành công!";
+            } else {
+                $response['message'] = "Không thể xóa sản phẩm. Vui lòng thử lại!";
+            }
+        }
+    } catch (Exception $e) {
+        // Ghi lỗi chi tiết
+        $response['message'] = "Đã có lỗi xảy ra: {$e->getMessage()}";
+        // Bạn có thể ghi lỗi ra file log để kiểm tra chi tiết
+        error_log("Error deleting product: " . $e->getMessage());
     }
-} else {
-    header("Location: ../admin_dashboard.php?action=admin_product&error=invalid_id");
 }
 
-?>
+// Trả về phản hồi dưới dạng JSON
+echo json_encode($response);

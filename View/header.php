@@ -101,10 +101,10 @@ if (!isset($_SESSION['user_id'])) {
     <header class="header bg-white py-4 shadow">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-4">
-                <a class="text-md" href="<?= $CONTENT_URL ?>/index.php">Thời trang bền vững</a>
-                <a class="text-md" href="<?= $CONTENT_URL ?>/product.php">Dịch vụ & Cửa hàng</a>
-                <a class="text-md" href="<?= $CONTENT_URL ?>/news.php?>">Bản tin</a>
-                <a class="text-md" href="<?= $CONTENT_URL ?>/eco.php">eco</a>
+                <a class="text-md" href="../View/index.php">Thời trang bền vững</a>
+                <a class="text-md" href="../View/product.php">Dịch vụ & Cửa hàng</a>
+                <a class="text-md" href="../View/news.php?>">Bản tin</a>
+                <a class="text-md" href="../View/eco.php">eco</a>
             </div>
             <a class="logo font-bold text-red-600" href="../index.php">
                 H<small class="text-sm">&amp;</small>M
