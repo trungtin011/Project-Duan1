@@ -288,6 +288,7 @@ $categories = $db->select($sql_categories);
                 <div class="container my-3">
                     <div class="row">
                         <?php foreach ($products as $product) { ?>
+<<<<<<< HEAD
                             <div class="col-12 col-md-3 mb-3">
                                 <a href="product_detail.php?id=<?php echo $product['product_id']; ?>">
                                     <div>
@@ -301,6 +302,25 @@ $categories = $db->select($sql_categories);
                                         <p class="card-text text-sm">
                                     </div>
                                 </a>
+=======
+                            <div class="col-12 col-md-3 mb-3 px-0">
+                                <div class="p-3">
+                                    <a href="product_detail.php?id=<?php echo $product['product_id']; ?>">
+                                        <div>
+                                            <img class="justify-content-center" src="<?= $product['image'] ?>" class="w-[300px]" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                        </div>
+                                        <div class="py-3 px-3">
+                                            <h5 class="card-title font-semibold text-lg"><?php echo htmlspecialchars($product['name']); ?></h5>
+                                            <!-- <p class ="text-sm font-semibold"><?php echo htmlspecialchars($product['description']); ?></p> -->
+                                            <p class="card-text text-sm">₫<?php echo number_format($product['price'], 0, ',', '.'); ?></p>
+                                            <div class="card-text text-sm mt-2" style="display: flex; align-items: center;">
+                                            <span style="display: inline-block; width: 10px; height: 10px; background-color:  <?php echo htmlspecialchars($product['color']); ?>; border: 1px solid #000; margin-right: 8px;"></span>
+                                            <!-- <?php echo htmlspecialchars($product['color']); ?> -->
+                                           </div>
+                                        </div>
+                                    </a>
+                                </div>
+>>>>>>> c07470b1e58b11cf3fd767e08ff1b1b915b0f220
                             </div>
                         <?php } ?>
                     </div>

@@ -156,12 +156,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <td><?= $product['size'] ?></td>
                         <td><?= $product['color'] ?></td>
                         <td>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editProductModal_<?= $product['product_id'] ?>">
+                                <i class="fa fa-pencil-square"></i> Sửa
+                            </button>
                             <a href="#" class="btn btn-danger delete-product" data-product-id="<?= $product['product_id'] ?>">
                                 <i class="fa fa-trash"></i> Xóa
                             </a>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProductModal_<?= $product['product_id'] ?>">
-                                <i class="fa fa-pencil-square"></i> Sửa
-                            </button>
                         </td>
                     </tr>
 
@@ -175,46 +175,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                                 <form method="POST" action="" class="">
                                     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-                                    <div class="form-group p-3 py-1 bg-dark text-white">
-                                        <label for="productName_<?= $product['product_id'] ?>">Tên sản phẩm:</label>
-                                        <input type="text" class="form-control" id="productName_<?= $product['product_id'] ?>" name="productName" value="<?= $product['name'] ?>" required>
-                                    </div>
-                                    <div class="form-group p-3 py-1 bg-dark text-white">
-                                        <label for="productDescription_<?= $product['product_id'] ?>">Mô tả sản phẩm:</label>
-                                        <textarea class="form-control" id="productDescription_<?= $product['product_id'] ?>" name="productDescription"><?= $product['description'] ?></textarea>
-                                    </div>
-                                    <div class="form-group p-3 py-1 bg-dark text-white">
-                                        <label for="price_<?= $product['product_id'] ?>">Giá:</label>
-                                        <input type="number" class="form-control" id="price_<?= $product['product_id'] ?>" name="price" value="<?= $product['price'] ?>" required>
-                                    </div>
-                                    <div class="form-group p-3 py-1 bg-dark text-white">
-                                        <label for="stock_quantity_<?= $product['product_id'] ?>">Số lượng:</label>
-                                        <input type="number" class="form-control" id="stock_quantity_<?= $product['product_id'] ?>" name="stock_quantity" value="<?= $product['stock_quantity'] ?>" required>
-                                    </div>
-                                    <div class="form-group p-3 py-1 bg-dark text-white">
-                                        <label for="category_id_<?= $product['product_id'] ?>">Danh mục:</label>
-                                        <select class="form-control" id="category_id_<?= $product['product_id'] ?>" name="category_id" required>
-                                            <option value="">Chọn danh mục</option>
-                                            <?php foreach ($categories as $category) : ?>
-                                                <option value="<?= $category['category_id'] ?>" <?= $category['category_id'] == $product['category_id'] ? 'selected' : '' ?>><?= $category['name'] ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group p-3 py-1 bg-dark text-white">
-                                        <label for="color_<?= $product['product_id'] ?>">Màu sắc:</label>
-                                        <input type="text" class="form-control" id="color_<?= $product['product_id'] ?>" name="color" value="<?= $product['color'] ?>">
-                                    </div>
-                                    <div class="form-group p-3 py-1 bg-dark text-white">
-                                        <label for="size_<?= $product['product_id'] ?>">Kích cỡ:</label>
-                                        <input type="text" class="form-control" id="size_<?= $product['product_id'] ?>" name="size" value="<?= $product['size'] ?>">
-                                    </div>
-                                    <div class="form-group p-3 py-1 bg-dark text-white">
-                                        <label for="image_url_<?= $product['product_id'] ?>">Link ảnh:</label>
-                                        <input type="text" class="form-control" id="image_url_<?= $product['product_id'] ?>" name="image_url" value="<?= $product['image'] ?>" required>
-                                    </div>
-                                    <div class="p-3 py-1 bg-dark text-white">
-                                        <button type="submit" class="btn btn-primary mt-2 w-full font-bold">Lưu thay đổi</button>
-                                        <button type="button" class="btn btn-secondary mt-2 w-full font-bold" data-bs-dismiss="modal">Đóng</button>
+                                    <div class="p-3 py-4 bg-white text-dark">
+                                        <div class="form-group">
+                                            <label for="productName_<?= $product['product_id'] ?>">Tên sản phẩm:</label>
+                                            <input type="text" class="form-control" id="productName_<?= $product['product_id'] ?>" name="productName" value="<?= $product['name'] ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="productDescription_<?= $product['product_id'] ?>">Mô tả sản phẩm:</label>
+                                            <textarea class="form-control" id="productDescription_<?= $product['product_id'] ?>" name="productDescription"><?= $product['description'] ?></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="price_<?= $product['product_id'] ?>">Giá:</label>
+                                            <input type="number" class="form-control" id="price_<?= $product['product_id'] ?>" name="price" value="<?= $product['price'] ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="stock_quantity_<?= $product['product_id'] ?>">Số lượng:</label>
+                                            <input type="number" class="form-control" id="stock_quantity_<?= $product['product_id'] ?>" name="stock_quantity" value="<?= $product['stock_quantity'] ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="category_id_<?= $product['product_id'] ?>">Danh mục:</label>
+                                            <select class="form-control" id="category_id_<?= $product['product_id'] ?>" name="category_id" required>
+                                                <option value="">Chọn danh mục</option>
+                                                <?php foreach ($categories as $category) : ?>
+                                                    <option value="<?= $category['category_id'] ?>" <?= $category['category_id'] == $product['category_id'] ? 'selected' : '' ?>><?= $category['name'] ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="color_<?= $product['product_id'] ?>">Màu sắc:</label>
+                                            <input type="text" class="form-control" id="color_<?= $product['product_id'] ?>" name="color" value="<?= $product['color'] ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="size_<?= $product['product_id'] ?>">Kích cỡ:</label>
+                                            <input type="text" class="form-control" id="size_<?= $product['product_id'] ?>" name="size" value="<?= $product['size'] ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="image_url_<?= $product['product_id'] ?>">Link ảnh:</label>
+                                            <input type="text" class="form-control" id="image_url_<?= $product['product_id'] ?>" name="image_url" value="<?= $product['image'] ?>" required>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary mt-4 w-full font-bold">Cập nhật</button>
                                     </div>
                                 </form>
                             </div>
@@ -235,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h5 class="modal-title h5" id="addProductModalLabel">Thêm sản phẩm</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="" class="p-3 py-4 bg-dark text-white">
+            <form method="POST" action="" class="p-3 py-4 bg-white text-dark">
                 <div class="form-group">
                     <label for="productName">Tên sản phẩm:</label>
                     <input type="text" class="form-control" id="productName" name="productName">
@@ -268,7 +268,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="color">Màu sắc:</label>
                     <select name="color" class="form-select" id="color">
                         <?php
-                        // Lấy danh sách màu sắc
                         $colors = $db->select("SELECT * FROM colors");
                         foreach ($colors as $color) {
                             echo "<option value='" . $color['color_name'] . "'>" . $color['color_name'] . "</option>";
@@ -279,7 +278,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="size">Kích thước:</label>
                     <select name="size" class="form-select" id="size">
-                        <!-- láy danh sách kích thước -->
                         <?php
                         $sizes = $db->select("SELECT * FROM sizes");
                         foreach ($sizes as $size) {
