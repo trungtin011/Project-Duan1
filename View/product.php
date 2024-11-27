@@ -288,23 +288,23 @@ $categories = $db->select($sql_categories);
                 <div class="container my-3">
                     <div class="row">
                         <?php foreach ($products as $product) { ?>
-                            <div class="col-12 col-md-3 mb-3">
-                                <a href="product_detail.php?id=<?php echo $product['product_id']; ?>">
-                                    <div>
-                                        <img src="<?= $product['image'] ?>" class="w-[300px] h-[450px]" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                                    </div>
-                                    <div class="py-3">
-                                        <p class ="text-sm font-semibold"><?php echo htmlspecialchars($product['stock_quantity']); ?></p>
-                                        <h5 class="card-title font-semibold"><?php echo htmlspecialchars($product['name']); ?></h5>
-                                        <p class ="text-sm font-semibold"><?php echo htmlspecialchars($product['description']); ?></p>
-                                        <p class="card-text text-sm font-semibold">₫<?php echo number_format($product['price'], 0, ',', '.'); ?></p>
-                                        <div class="card-text text-sm" style="display: flex; align-items: center;">
-                                        <span style="display: inline-block; width: 20px; height: 20px; background-color:  <?php echo htmlspecialchars($product['color']); ?>; border: 1px solid #000; margin-right: 8px;"></span>
-                                        Màu: <?php echo htmlspecialchars($product['color']); ?>
-                                       </div>
-                                        <p class="card-text text-sm">
-                                    </div>
-                                </a>
+                            <div class="col-12 col-md-3 mb-3 px-0">
+                                <div class="p-3">
+                                    <a href="product_detail.php?id=<?php echo $product['product_id']; ?>">
+                                        <div>
+                                            <img class="justify-content-center" src="<?= $product['image'] ?>" class="w-[300px]" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                        </div>
+                                        <div class="py-3 px-3">
+                                            <h5 class="card-title font-semibold text-lg"><?php echo htmlspecialchars($product['name']); ?></h5>
+                                            <!-- <p class ="text-sm font-semibold"><?php echo htmlspecialchars($product['description']); ?></p> -->
+                                            <p class="card-text text-sm">₫<?php echo number_format($product['price'], 0, ',', '.'); ?></p>
+                                            <div class="card-text text-sm mt-2" style="display: flex; align-items: center;">
+                                            <span style="display: inline-block; width: 10px; height: 10px; background-color:  <?php echo htmlspecialchars($product['color']); ?>; border: 1px solid #000; margin-right: 8px;"></span>
+                                            <!-- <?php echo htmlspecialchars($product['color']); ?> -->
+                                           </div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         <?php } ?>
                     </div>
