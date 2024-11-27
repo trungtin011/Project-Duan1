@@ -8,6 +8,7 @@ $db = new DBUntil();
 $categories = $db->select("SELECT * FROM categories");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Thêm danh mục mới
     if (isset($_POST['categoryName']) && isset($_POST['categoryDescription']) && !isset($_POST['category_id'])) {
         $categoryName = trim($_POST['categoryName']);
         $categoryDescription = trim($_POST['categoryDescription']);
@@ -20,16 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     icon: "error",
                     title: "Tên danh mục không được để trống",
                     showConfirmButton: false,
-                    timer: 1500,
+                    timer: 3000,
                     timerProgressBar: true
                 });
-                setTimeout(function() {
-                    window.location.href = "admin_dashboard.php?action=admin_category";
-                }, 1500);
             </script>';
             exit;
         }
 
+        // Kiểm tra trùng tên danh mục
         $existingCategory = $db->select("SELECT * FROM categories WHERE name = ?", [$categoryName]);
         if (!empty($existingCategory)) {
             echo '<script>
@@ -39,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     icon: "error",
                     title: "Danh mục đã tồn tại",
                     showConfirmButton: false,
-                    timer: 1500,
+                    timer: 3000,
                     timerProgressBar: true
                 });
                 setTimeout(function() {
@@ -61,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     icon: "success",
                     title: "Thêm danh mục thành công",
                     showConfirmButton: false,
-                    timer: 1500,
                     timerProgressBar: true
                 });
                 setTimeout(function() {
@@ -76,7 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     icon: "error",
                     title: "Lỗi: ' . $e->getMessage() . '",
                     showConfirmButton: false,
-                    timer: 1500,
                     timerProgressBar: true
                 });
                 setTimeout(function() {
@@ -86,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    // Sửa danh mục
     if (isset($_POST['category_id']) && isset($_POST['categoryName']) && isset($_POST['categoryDescription'])) {
         $categoryId = $_POST['category_id'];
         $categoryName = trim($_POST['categoryName']);
@@ -99,7 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     icon: "error",
                     title: "Tên danh mục không được để trống",
                     showConfirmButton: false,
-                    timer: 1500,
                     timerProgressBar: true
                 });
                 setTimeout(function() {
@@ -109,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
+        // Kiểm tra trùng tên danh mục (loại trừ danh mục hiện tại)
         $existingCategory = $db->select("SELECT * FROM categories WHERE name = ? AND category_id != ?", [$categoryName, $categoryId]);
         if (!empty($existingCategory)) {
             echo '<script>
@@ -118,7 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     icon: "error",
                     title: "Tên danh mục đã tồn tại",
                     showConfirmButton: false,
-                    timer: 1500,
                     timerProgressBar: true
                 });
                 setTimeout(function() {
@@ -140,7 +137,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     icon: "success",
                     title: "Sửa danh mục thành công",
                     showConfirmButton: false,
-                    timer: 1500,
                     timerProgressBar: true
                 });
                 setTimeout(function() {
@@ -155,7 +151,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     icon: "warning",
                     title: "Không có thay đổi nào được thực hiện",
                     showConfirmButton: false,
-                    timer: 1500,
                     timerProgressBar: true
                 });
                 setTimeout(function() {
@@ -186,41 +181,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </tr>
             </thead>
             <tbody class="table-group-divider">
+                <!-- List Danh mục -->
                 <?php foreach ($categories as $index => $category) : ?>
                     <tr class="align-middle text-center">
                         <td><?= $index + 1 ?></td>
                         <td><?= $category['name'] ?></td>
                         <td><?= $category['description'] ?></td>
                         <td>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editCategoryModal_<?= $category['category_id'] ?>">
-                                <i class="fa fa-pencil-square"></i> Sửa
-                            </button>
                             <a href="#" class="btn btn-danger delete-category" data-category-id="<?= $category['category_id'] ?>">
                                 <i class="fa fa-trash"></i> Xóa
                             </a>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCategoryModal_<?= $category['category_id'] ?>">
+                                <i class="fa fa-pencil-square"></i> Sửa
+                            </button>
                         </td>
                     </tr>
 
+                    <!-- Modal sửa danh mục -->
                     <div class="modal fade" id="editCategoryModal_<?= $category['category_id'] ?>" tabindex="-1" aria-labelledby="editCategoryModalLabel_<?= $category['category_id'] ?>" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header border-0 bg-red-600 text-white">
-                                    <h5 class="modal-title h5" id="editCategoryModalLabel_<?= $category['category_id'] ?>">Sửa danh mục</h5>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editCategoryModalLabel_<?= $category['category_id'] ?>">Sửa danh mục</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form id="formEditCategory" method="POST" action="">
-                                    <input type="hidden" name="category_id" value="<?= $category['category_id'] ?>">
-                                    <div class="p-3 py-4 bg-dark text-white">
-                                        <div class="form-group">
-                                            <label class="form-label" for="categoryName_<?= $category['category_id'] ?>">Tên danh mục:</label>
-                                            <input class="form-control" type="text" id="categoryName_<?= $category['category_id'] ?>" name="categoryName" value="<?= $category['name'] ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="categoryDescription_<?= $category['category_id'] ?>">Mô tả danh mục:</label>
-                                            <textarea class="form-control" id="categoryDescription_<?= $category['category_id'] ?>" name="categoryDescription"><?= $category['description'] ?></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary mt-4 w-full font-bold">Cập nhật</button>
+                                    <input type="hidden" name="category_id" value="<?= $category['category_id'] ?>"> <!-- Ẩn input chứa category_id -->
+                                    <div class="form-group">
+                                        <label class="form-label" for="categoryName_<?= $category['category_id'] ?>">Tên danh mục:</label>
+                                        <input class="form-control" type="text" id="categoryName_<?= $category['category_id'] ?>" name="categoryName" value="<?= $category['name'] ?>">
                                     </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="categoryDescription_<?= $category['category_id'] ?>">Mô tả danh mục:</label>
+                                        <textarea class="form-control" id="categoryDescription_<?= $category['category_id'] ?>" name="categoryDescription"><?= $category['description'] ?></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-success mt-3">Sửa</button>
                                 </form>
                             </div>
                         </div>
@@ -232,6 +227,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 
+
+<!-- Modal thêm danh mục -->
 <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -278,8 +275,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         fetch(`./function-CRUD/Delete_Category.php?id=${categoryId}`)
                             .then(response => response.json())
                             .then(data => {
-                                console.log(data);
+                                console.log(data); // Kiểm tra phản hồi từ server
                                 if (data.success) {
+                                    // Thông báo xóa thành công
                                     Swal.fire({
                                         toast: true,
                                         position: "top-end",
@@ -308,9 +306,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 Swal.fire({
                                     toast: true,
                                     position: "top-end",
+                                    title: 'Lỗi',
                                     text: 'Đã có lỗi xảy ra. Vui lòng thử lại.',
-                                    icon: 'error',
-                                    showConfirmButton: false
+                                    icon: 'error'
                                 });
                             });
                     }

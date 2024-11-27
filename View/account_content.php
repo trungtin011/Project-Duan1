@@ -50,7 +50,7 @@
 <!-- Order Section -->
 <div class="mb-5">
     <h4 class="fw-bold">Tất cả đơn hàng</h4>
-    <a href="?page=orders"
+    <a href="#"
         class="bg-gray-200 p-4 text-decoration-none font-semibold text-muted flex items-center justify-between mt-3">
         Xem tất cả đơn hàng <i class="fas fa-chevron-right"></i>
     </a>

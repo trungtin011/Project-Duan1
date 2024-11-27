@@ -13,11 +13,7 @@ switch ($action) {
     case 'admin_statistical':
         include './admin-statistical.php';
         break;
-
-    case 'admin_coupon':
-        include './admin-coupon.php';
-        break;
-    
+        
     default:
         include './admin-statistical.php';
         break;
