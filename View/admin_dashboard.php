@@ -110,7 +110,6 @@ if (!isset($_SESSION['user_id'])) {
         max-width: 500px;
         width: 100%;
     }
-
     .search-input {
         flex: 1;
         padding: 5px 16px;

@@ -187,7 +187,7 @@ if (!isset($_SESSION['user_id'])) {
                             <hr>
                             <div class="cart-total font-bold text-right flex justify-between">
                                 <p>Tổng:</p>
-                                <p>₫<?php echo number_format($total + 50000, 0, ',', '.'); ?></p>
+                                <p>₫<?php echo number_format($total + 49000, 0, ',', '.'); ?></p>
                             </div>
                             <br>
                             <a href="../View/checkout.php" class="block text-center py-2 text-decoration-none font-bold border bg-black text-white">Thanh toán</a>

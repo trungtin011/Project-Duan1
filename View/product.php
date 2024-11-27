@@ -298,10 +298,6 @@ $categories = $db->select($sql_categories);
                                         <h5 class="card-title font-semibold"><?php echo htmlspecialchars($product['name']); ?></h5>
                                         <p class ="text-sm font-semibold"><?php echo htmlspecialchars($product['description']); ?></p>
                                         <p class="card-text text-sm font-semibold">₫<?php echo number_format($product['price'], 0, ',', '.'); ?></p>
-                                        <div class="card-text text-sm" style="display: flex; align-items: center;">
-                                        <span style="display: inline-block; width: 20px; height: 20px; background-color:  <?php echo htmlspecialchars($product['color']); ?>; border: 1px solid #000; margin-right: 8px;"></span>
-                                        Màu: <?php echo htmlspecialchars($product['color']); ?>
-                                       </div>
                                         <p class="card-text text-sm">
                                     </div>
                                 </a>
