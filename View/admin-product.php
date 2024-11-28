@@ -213,8 +213,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <td><?= htmlspecialchars($product['colors']) ?></td>
                         <td><?= htmlspecialchars($product['sizes']) ?></td>
                         <td>
+<<<<<<< HEAD
                             <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editProductModal_<?= $product['product_id'] ?>">Sửa</button>
                             <a href="#" class="btn btn-danger delete-product" data-product-id="<?= $product['product_id'] ?>">Xóa</a>
+=======
+                            <a href="#" class="btn btn-danger delete-product" data-product-id="<?= $product['product_id'] ?>">
+                                <i class="fa fa-trash"></i> Xóa
+                            </a>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProductModal_<?= $product['product_id'] ?>">
+                                <i class="fa fa-pencil-square"></i> Sửa
+                            </button>
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
                         </td>
                     </tr>
 
@@ -229,6 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                                 <form method="POST" action="" class="">
                                     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+<<<<<<< HEAD
                                     <div class="p-3 py-1 bg-white text-black">
                                         <div class="form-group">
                                             <label for="productName_<?= $product['product_id'] ?>">Tên sản phẩm:</label>
@@ -294,6 +304,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <div class="p-3 py-1 bg-dark text-white">
                                             <button type="submit" class="btn btn-primary mt-2 w-full font-bold">Lưu thay đổi</button>
                                         </div>
+=======
+                                    <div class="form-group p-3 py-1 bg-dark text-white">
+                                        <label for="productName_<?= $product['product_id'] ?>">Tên sản phẩm:</label>
+                                        <input type="text" class="form-control" id="productName_<?= $product['product_id'] ?>" name="productName" value="<?= $product['name'] ?>" required>
+                                    </div>
+                                    <div class="form-group p-3 py-1 bg-dark text-white">
+                                        <label for="productDescription_<?= $product['product_id'] ?>">Mô tả sản phẩm:</label>
+                                        <textarea class="form-control" id="productDescription_<?= $product['product_id'] ?>" name="productDescription"><?= $product['description'] ?></textarea>
+                                    </div>
+                                    <div class="form-group p-3 py-1 bg-dark text-white">
+                                        <label for="price_<?= $product['product_id'] ?>">Giá:</label>
+                                        <input type="number" class="form-control" id="price_<?= $product['product_id'] ?>" name="price" value="<?= $product['price'] ?>" required>
+                                    </div>
+                                    <div class="form-group p-3 py-1 bg-dark text-white">
+                                        <label for="stock_quantity_<?= $product['product_id'] ?>">Số lượng:</label>
+                                        <input type="number" class="form-control" id="stock_quantity_<?= $product['product_id'] ?>" name="stock_quantity" value="<?= $product['stock_quantity'] ?>" required>
+                                    </div>
+                                    <div class="form-group p-3 py-1 bg-dark text-white">
+                                        <label for="category_id_<?= $product['product_id'] ?>">Danh mục:</label>
+                                        <select class="form-control" id="category_id_<?= $product['product_id'] ?>" name="category_id" required>
+                                            <option value="">Chọn danh mục</option>
+                                            <?php foreach ($categories as $category) : ?>
+                                                <option value="<?= $category['category_id'] ?>" <?= $category['category_id'] == $product['category_id'] ? 'selected' : '' ?>><?= $category['name'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group p-3 py-1 bg-dark text-white">
+                                        <label for="color_<?= $product['product_id'] ?>">Màu sắc:</label>
+                                        <input type="text" class="form-control" id="color_<?= $product['product_id'] ?>" name="color" value="<?= $product['color'] ?>">
+                                    </div>
+                                    <div class="form-group p-3 py-1 bg-dark text-white">
+                                        <label for="size_<?= $product['product_id'] ?>">Kích cỡ:</label>
+                                        <input type="text" class="form-control" id="size_<?= $product['product_id'] ?>" name="size" value="<?= $product['size'] ?>">
+                                    </div>
+                                    <div class="form-group p-3 py-1 bg-dark text-white">
+                                        <label for="image_url_<?= $product['product_id'] ?>">Link ảnh:</label>
+                                        <input type="text" class="form-control" id="image_url_<?= $product['product_id'] ?>" name="image_url" value="<?= $product['image'] ?>" required>
+                                    </div>
+                                    <div class="p-3 py-1 bg-dark text-white">
+                                        <button type="submit" class="btn btn-primary mt-2 w-full font-bold">Lưu thay đổi</button>
+                                        <button type="button" class="btn btn-secondary mt-2 w-full font-bold" data-bs-dismiss="modal">Đóng</button>
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
                                     </div>
                                 </form>
                             </div>
@@ -314,7 +366,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h5 class="modal-title h5" id="addProductModalLabel">Thêm sản phẩm</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+<<<<<<< HEAD
             <form method="POST" action="" class="p-3 py-1 bg-white text-black">
+=======
+            <form method="POST" action="" class="p-3 py-4 bg-dark text-white">
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
                 <div class="form-group">
                     <label for="productName">Tên sản phẩm:</label>
                     <input type="text" class="form-control" id="productName" name="productName">
@@ -347,8 +403,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="colors">Màu sắc:</label>
                     <select class="form-control" id="colors" name="colors[]" multiple>
                         <?php
+<<<<<<< HEAD
                         $availableColors = $db->select("SELECT DISTINCT color FROM colors"); // Lấy màu từ bảng colors
                         foreach ($availableColors as $color):
+=======
+                        // Lấy danh sách màu sắc
+                        $colors = $db->select("SELECT * FROM colors");
+                        foreach ($colors as $color) {
+                            echo "<option value='" . $color['color_name'] . "'>" . $color['color_name'] . "</option>";
+                        }
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
                         ?>
                             <option value="<?= $color['color'] ?>"><?= ucfirst($color['color']) ?></option>
                         <?php endforeach; ?>
@@ -356,8 +420,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="form-group">
+<<<<<<< HEAD
                     <label for="sizes">Kích cỡ:</label>
                     <select class="form-control" id="sizes" name="sizes[]" multiple>
+=======
+                    <label for="size">Kích thước:</label>
+                    <select name="size" class="form-select" id="size">
+                        <!-- láy danh sách kích thước -->
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
                         <?php
                         $availableSizes = $db->select("SELECT DISTINCT size FROM sizes"); // Lấy kích cỡ từ bảng sizes
                         foreach ($availableSizes as $size):

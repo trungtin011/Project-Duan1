@@ -54,7 +54,11 @@ $order_items = $db->select("SELECT * FROM order_items WHERE order_id = ?", [$ord
     </div>
 
     <!-- Chi tiết sản phẩm -->
+<<<<<<< HEAD
     <!-- <div class="bg-white rounded-lg shadow-lg mt-8 p-6">
+=======
+    <div class="bg-white rounded-lg shadow-lg mt-8 p-6">
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
         <h2 class="text-xl font-semibold mb-4">Chi tiết sản phẩm</h2>
         <div class="overflow-x-auto">
             <table class="table-auto w-full text-left border-collapse border border-gray-300">
@@ -78,7 +82,11 @@ $order_items = $db->select("SELECT * FROM order_items WHERE order_id = ?", [$ord
                 </tbody>
             </table>
         </div>
+<<<<<<< HEAD
     </div> -->
+=======
+    </div>
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
 
     <div class="text-center mt-8">
         <a href="../View/product.php" class="btn btn-light py-2 px-4 text-white bg-gray-500 hover:bg-blue-700 rounded-lg">Tiếp tục mua sắm</a>

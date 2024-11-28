@@ -297,6 +297,7 @@ $products = $db->select($sql);
                             <div class="col-12 col-md-3 mb-3">
                                 <a href="product_detail.php?id=<?php echo $product['product_id']; ?>">
                                     <div>
+<<<<<<< HEAD
                                         <img class="justify-content-center" src="<?= $product['image'] ?>" class="w-[300px]" alt="<?php echo htmlspecialchars($product['name']); ?>">
                                     </div>
                                     <div class="py-3">
@@ -310,6 +311,16 @@ $products = $db->select($sql);
                                                 <span style="display: inline-block; width: 10px; height: 10px; background-color: <?php echo htmlspecialchars(trim($color)); ?>; border: 1px solid #000; margin-right: 1px;"></span>
                                             <?php } ?>
                                         </div>
+=======
+                                        <img src="<?= $product['image'] ?>" class="w-[300px] h-[450px]" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                    </div>
+                                    <div class="py-3">
+                                        <p class ="text-sm font-semibold"><?php echo htmlspecialchars($product['stock_quantity']); ?></p>
+                                        <h5 class="card-title font-semibold"><?php echo htmlspecialchars($product['name']); ?></h5>
+                                        <p class ="text-sm font-semibold"><?php echo htmlspecialchars($product['description']); ?></p>
+                                        <p class="card-text text-sm font-semibold">₫<?php echo number_format($product['price'], 0, ',', '.'); ?></p>
+                                        <p class="card-text text-sm">
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
                                     </div>
                                 </a>
                             </div>

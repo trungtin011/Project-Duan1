@@ -95,27 +95,6 @@ if (!isset($_SESSION['user_id'])) {
             background-color: whitesmoke;
             color: red;
         }
-
-        .breadcrumb {
-            font-size: 10px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .breadcrumb p {
-            margin: 0;
-            padding: 0;
-            font-weight: bold;
-        }
-
-        .breadcrumb a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 
@@ -124,7 +103,7 @@ if (!isset($_SESSION['user_id'])) {
     <header class="header bg-white py-4 shadow">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-4">
-                <a class="text-md" href="../View/fashion.php">Thời trang bền vững</a>
+                <a class="text-md" href="../View/index.php">Thời trang bền vững</a>
                 <a class="text-md" href="../View/product.php">Dịch vụ & Cửa hàng</a>
                 <a class="text-md" href="../View/blog.php">Bản tin</a>
                 <a class="text-md" href="../View/eco.php">eco</a>
@@ -221,6 +200,7 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </div>
     </header>
+<<<<<<< HEAD
 
     <nav class="nav_bar bg-white py-4 flex justify-center items-center m-auto">
         <div class="nav_bar_item">
@@ -608,6 +588,8 @@ if (!isset($_SESSION['user_id'])) {
             ?>
         </p>
     </div>
+=======
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
 </body>
 
 </html>

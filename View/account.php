@@ -29,7 +29,7 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
             </h2>
             <!-- Icon setting -->
-            <a href="./account.php?page=settings"><i class="fa-solid fa-gear text-3xl"></i></a>
+            <a href="./account.php?page=home"><i class="fa-solid fa-home mr-3 text-2xl"></i></a>
         </div>
         <div class="point p-4 shadow-sm">
             <h5 class="font-bold text-3xl">0 Điểm</h5>
@@ -163,10 +163,13 @@ if (!isset($_SESSION['user_id'])) {
             include $pages[$page];
         } else {
             echo "<p>Chọn một mục từ menu hoặc trang không tồn tại.</p>";
-            }
-            ?>
+        }
+        ?>
     </main>
+    <!-- <div class="sidebar col-6">
+        <?php
+        // include './account_content.php';
+        ?>
+    </div> -->
 </div>
-<br>
-<br>
 <?php include './footer.php'; ?>

@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         exit();
     }
 
+<<<<<<< HEAD
     // Lấy dữ liệu từ form
     $quantity = max(1, (int)($_POST['quantity'] ?? 1)); // Đảm bảo số lượng ít nhất là 1
     $selected_size = $_POST['size'] ?? null; // Kích cỡ được chọn
@@ -56,22 +57,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         echo "<script>alert('Số lượng không đủ trong kho.');</script>";
     } else {
         // Khởi tạo giỏ hàng nếu chưa có
+=======
+    $quantity = max(1, (int)($_POST['quantity'] ?? 1));
+    $selected_size = $_POST['size'] ?? null;
+    $selected_color = $_POST['color'] ?? null;
+
+    if (!$selected_size || !$selected_color) {
+        echo "<script>alert('Vui lòng chọn đầy đủ kích cỡ và màu sắc.');</script>";
+    } elseif ($quantity > $product['stock_quantity']) {
+        echo "<script>alert('Số lượng không đủ trong kho.');</script>";
+    } else {
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
+<<<<<<< HEAD
         // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
         $found = false;
         foreach ($_SESSION['cart'] as &$item) {
             if ($item['product_id'] === $product_id && $item['size'] === $selected_size && $item['color'] === $selected_color) {
                 // Nếu sản phẩm đã có trong giỏ hàng, cập nhật số lượng
+=======
+        $found = false;
+        foreach ($_SESSION['cart'] as &$item) {
+            if ($item['product_id'] === $product_id && $item['size'] === $selected_size && $item['color'] === $selected_color) {
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
                 $item['quantity'] += $quantity;
                 $found = true;
                 break;
             }
         }
 
+<<<<<<< HEAD
         // Nếu sản phẩm chưa có, thêm mới vào giỏ hàng
+=======
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
         if (!$found) {
             $_SESSION['cart'][] = [
                 'product_id' => $product['product_id'],
@@ -84,7 +105,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
             ];
         }
 
+<<<<<<< HEAD
         // Chuyển hướng đến trang giỏ hàng
+=======
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
         header("Location: cart.php");
         exit;
     }
@@ -96,24 +120,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 
 <?php include('./header.php'); ?>
 
-<main class="product-detail px-5 mt-5">
+<main class="product-detail px-5">
     <div class="product-description flex gap-4 justify-content-around">
         <div class="column1">
-            <div>
-                <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-            </div>
+            <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" class="img-fluid rounded">
         </div>
         <div class="column2">
             <div class="product-description__content">
                 <section class="product-description__header">
-                    <div class="product-description__title">
-                        <p><?php echo htmlspecialchars($product['name']); ?></p>
-                        <i class="fa-regular fa-heart"></i>
-                    </div>
-                    <div class="product-description__price">
-                        <span>₫<?php echo number_format($product['price'], 0, ',', '.'); ?></span>
-                    </div>
+                    <h1 class="text-2xl font-bold"><?php echo htmlspecialchars($product['name']); ?></h1>
+                    <p class="text-lg text-gray-600 mt-2">₫<?php echo number_format($product['price'], 0, ',', '.'); ?></p>
                 </section>
+<<<<<<< HEAD
                 <form method="POST" action="">
                     <!-- Kích cỡ -->
                     <div class="mt-4">
@@ -269,10 +287,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                         </div>
                     </div>
                 </div>
+=======
+
+                <!-- Form chọn thuộc tính -->
+                <form method="POST" action="">
+                    <!-- Thuộc tính kích cỡ -->
+                    <?php if (!empty($sizes)): ?>
+                        <div class="mt-4">
+                            <label class="block text-sm font-semibold">Chọn kích cỡ:</label>
+                            <div class="flex gap-2 mt-2">
+                                <?php foreach ($sizes as $size): ?>
+                                    <label>
+                                        <input type="radio" name="size" value="<?php echo htmlspecialchars($size['size']); ?>" required>
+                                        <span class="block border border-gray-400 px-4 py-2 rounded-md"><?php echo htmlspecialchars($size['size']); ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Thuộc tính màu sắc -->
+                    <?php if (!empty($colors)): ?>
+                        <div class="mt-4">
+                            <label class="block text-sm font-semibold">Chọn màu sắc:</label>
+                            <div class="flex gap-2 mt-2">
+                                <?php foreach ($colors as $color): ?>
+                                    <label>
+                                        <input type="radio" name="color" value="<?php echo htmlspecialchars($color['color']); ?>" required>
+                                        <span class="block w-6 h-6 rounded-full" style="background-color: <?php echo htmlspecialchars($color['color']); ?>; border: 1px solid #000;"></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Số lượng -->
+                    <div class="mt-4">
+                        <label class="block text-sm font-semibold">Số lượng:</label>
+                        <input type="number" name="quantity" value="1" min="1" max="<?php echo $product['stock_quantity']; ?>" class="form-control w-20" required>
+                    </div>
+
+                    <!-- Nút thêm vào giỏ hàng -->
+                    <button type="submit" name="add_to_cart" class="mt-5 bg-black text-white py-3 px-6 rounded-lg hover:bg-gray-800 transition">
+                        Thêm vào giỏ hàng
+                    </button>
+                </form>
+
+                <!-- Mô tả sản phẩm -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold">Mô tả sản phẩm</h3>
+                    <p class="text-sm text-gray-700 mt-2">
+                        <?php echo nl2br(htmlspecialchars($product['description'])); ?>
+                    </p>
+                </div>
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
             </div>
         </div>
     </div>
 </main>
+<<<<<<< HEAD
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Xử lý khi chọn kích cỡ
@@ -346,3 +419,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 </script>
 
 <?php include('./footer.php'); ?>
+=======
+
+<?php include('./footer.php'); ?>
+>>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
