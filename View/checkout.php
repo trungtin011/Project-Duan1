@@ -121,11 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                 <!-- Chọn địa chỉ giao hàng -->
                 <div class="w-full md:w-2/3 bg-white p-4 rounded-lg shadow-md">
                     <h2 class="text-lg font-semibold mb-4">Chọn địa chỉ giao hàng</h2>
-<<<<<<< HEAD
 
-=======
-                    
->>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
                     <div class="space-y-4">
                         <?php foreach ($addresses as $address): ?>
                             <label class="block cursor-pointer">
@@ -143,7 +139,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                 <!-- Tóm tắt đơn hàng -->
                 <div class="w-full md:w-1/3 bg-white p-4 rounded-lg shadow-md">
                     <h3 class="text-lg font-semibold mb-4">Tóm tắt đơn hàng</h3>
-<<<<<<< HEAD
                     <div class="space-y-1">
                         <!-- Nhập mã giảm giá -->
                         <span for="promo_code" class="form-label text-sm font-semibold">Mã giảm giá</span>
@@ -152,16 +147,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                             <button type="submit" class="border border-dark bg-black text-light p-2 px-2 text-md font-semibold">Lưu</button>
                         </div>
                             
-=======
-                    <div class="space-y-3">
-                        <!-- Nhập mã giảm giá -->
-                        <div class="flex justify-between items-center text-sm">
-                            <label for="promo_code" class="form-label text-sm font-semibold">Mã giảm giá</label>
-                            <input type="text" name="promo_code" class="form-control" placeholder="Nhập mã giảm giá (nếu có)" value="<?php echo isset($_POST['promo_code']) ? htmlspecialchars($_POST['promo_code']) : ''; ?>">
-                            <button type="submit" class="btn btn-sm btn-primary ml-2">Áp dụng</button>
-                        </div>
-
->>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
                         <!-- Chi tiết giá trị -->
                         <div class="flex justify-between text-sm">
                             <span>Giá trị đơn hàng</span>
@@ -191,8 +176,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     </div>
 </main>
 
-<<<<<<< HEAD
 <?php require_once('footer.php'); ?>
-=======
-<?php require_once('footer.php'); ?>
->>>>>>> 54c7f666aa76fe42243c2d85ecb90dfb338ef21b
