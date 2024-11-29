@@ -99,7 +99,6 @@ if (!isset($_SESSION['user_id'])) {
         border-top: 1px solid #495057;
     }
 </style>
-
 <body id="page-top">
     <div id="wrapper">
         <ul class="navbar-nav navbar_bg sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -179,7 +178,6 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </ul>
 
-
         <div id="content-wrapper" class="d-flex flex-column">
 
             <div id="content">
@@ -193,8 +191,7 @@ if (!isset($_SESSION['user_id'])) {
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-dark" type="button">
                                     <i class="fas fa-search fa-sm"></i>
@@ -215,7 +212,7 @@ if (!isset($_SESSION['user_id'])) {
                                 <form class="form-inline mr-auto w-100 navbar-search">
                                     <div class="input-group">
                                         <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Tìm kiếm..." aria-label="Search"
+                                            placeholder="Tìm kiếm..." aria-label="Search"
                                             aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-secondary" type="button">
@@ -244,15 +241,15 @@ if (!isset($_SESSION['user_id'])) {
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    Hồ sơ
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
+                                    Cài đặt
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Nhật ký hoạt động
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <?php if ($userName): ?>

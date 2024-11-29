@@ -1,4 +1,3 @@
-<?php require_once('header.php'); ?>
 <style>
   /* Tùy chỉnh chung */
   .carousel-inner img {
@@ -143,20 +142,44 @@
     /* Gạch chân khi hover */
   }
 </style>
-</head>
+<?php
+include_once('../Model/DBUntil.php');
+
+$db = new DBUntil();
+
+// Truy vấn lấy tất cả bài viết
+$posts = $db->select("SELECT * FROM posts ORDER BY created_at DESC LIMIT 6"); // Giới hạn lấy 6 bài viết mới nhất
+
+// Lấy danh sách danh mục
+$categories_post = $db->select("SELECT * FROM categories"); 
+?>
+<?php
+include_once('../Model/DBUntil.php');
+
+$db = new DBUntil();
+
+// Truy vấn lấy tất cả bài viết (sử dụng LIMIT để lấy 6 bài viết mới nhất)
+$posts = $db->select("SELECT * FROM posts ORDER BY created_at DESC LIMIT 6"); 
+
+// Lấy danh sách danh mục
+$categories_post = $db->select("SELECT * FROM categories_post"); 
+?>
+
+<?php require_once('header.php'); ?>
 
 <body>
+  <!-- Carousel -->
   <div id="customCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
     <!-- Indicators -->
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#customCarousel" data-bs-slide-to="0" class="active"
-        aria-current="true"></button>
-      <button type="button" data-bs-target="#customCarousel" data-bs-slide-to="1"></button>
-      <button type="button" data-bs-target="#customCarousel" data-bs-slide-to="2"></button>
+      <?php foreach ($posts as $index => $post): ?>
+        <button type="button" data-bs-target="#customCarousel" data-bs-slide-to="<?= $index ?>" class="<?= $index === 0 ? 'active' : '' ?>" aria-current="true"></button>
+      <?php endforeach; ?>
     </div>
 
-    <!-- Carousel Items -->
-    <div class="carousel-inner">
+
+   <!-- Carousel Items -->
+   <div class="carousel-inner">
       <!-- Slide 1 -->
       <div class="carousel-item active">
         <img src="image/slide2.webp" alt="Slide 1">
@@ -180,7 +203,7 @@
 
       <!-- Slide 3 -->
       <div class="carousel-item">
-        <img src="https://via.placeholder.com/1200x600" alt="Slide 3">
+        <img src="image/slide3.webp" alt="Slide 3">
         <div class="custom-caption">
           <h5>THỜI TRANG BỀN VỮNG</h5>
           <p>Những xu hướng tái chế và thân thiện với môi trường đang thịnh hành.</p>
@@ -188,7 +211,6 @@
         </div>
       </div>
     </div>
-
     <!-- Controls -->
     <button class="carousel-control-prev" type="button" data-bs-target="#customCarousel" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -201,149 +223,97 @@
   </div>
 
   <div class="container py-5">
-    <div class="row" style="margin-right: 100px;">
+    <div class="row">
       <!-- Sidebar -->
       <div class="col-md-3">
         <dl>
-          <!-- Tiêu đề 1 -->
-          <dt>Mua ngay tại H&M</dt>
-          <dd>Mua sắm trực tuyến</dd>
-          <dd>Tìm cửa hàng</dd>
-          <dd>Giao hàng</dd>
-          <dd>Thanh toán</dd>
-          <dd>Trả hàng</dd>
-          <dd>Tải về ứng dụng</dd>
-
-          <!-- Tiêu đề 2 -->
-          <dt>Sản phẩm & Chất lượng</dt>
-          <dd>Thu gom & tái chế quần áo cũ</dd>
-          <dd>Thông tin sản phẩm</dd>
-          <dd>Chất lượng</dd>
-          <dd>Cách chăm sóc sản phẩm</dd>
-          <dd>Sản phẩm bị thu hồi</dd>
-
-          <!-- Tiêu đề 3 -->
-          <dt>H&M Membership</dt>
-          <dd>Khám phá thêm về tư cách thành viên</dd>
-          <dd>Điều khoản & Điều kiện</dd>
-
-          <!-- Tiêu đề 4 -->
-          <dt>Pháp lý & Bảo mật</dt>
-          <dd>Điều Khoản Bảo Mật</dd>
-          <dd>Thông báo cookie</dd>
-          <dd>Các điều khoản & điều kiện</dd>
-          <dd>Điều kiện để Đánh giá</dd>
-          <dd>Chính sách bảo mật thông tin thanh toán</dd>
-          <dd>Bug Bounty Program</dd>
-          <dd>Báo cáo lừa đảo</dd>
-
-          <!-- Tiêu đề 5 -->
-          <dt>Liên hệ</dt>
-          <dd>Thông tin Công ty</dd>
-          <dd>Cơ hội nghề nghiệp tại H&M</dd>
-        </dl>
+          <dt>Danh sách danh muc</dt>
+          <?php foreach ($categories_post as $category_post): ?>
+            <dd><a><?= $category_post['name'] ?></a></dd>
+          <?php endforeach; ?>
       </div>
 
-      <!-- Cards -->
+      <!-- Main Content -->
       <div class="col-md-9">
-        <div class="row">
-          <div class="container py-5">
-            <!-- BÀI VIẾT NỔI BẬT -->
-            <div class="section-title text-center mb-4">
-              <h2>BÀI VIẾT NỔI BẬT</h2>
-              <a href="#">XEM TẤT CẢ</a>
-            </div>
-            <div class="row g-4">
-              <!-- Post 1 -->
+        <div class="container py-5">
+          <!-- BÀI VIẾT NỔI BẬT -->
+          <div class="section-title text-center mb-4">
+            <h2>BÀI VIẾT NỔI BẬT</h2>
+            <a href="#">XEM TẤT CẢ</a>
+          </div>
+          <div class="row g-4">
+            <?php foreach ($posts as $post): ?>
               <div class="col-md-4 col-sm-6">
                 <div class="post-card shadow-sm">
-                  <img src="image/blog1.jpg" alt="Moody Winter">
+                  <img src="<?= $post['image'] ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="card-img-top">
                   <div class="post-content p-3">
-                    <h5>NEW COLLECTION | MOODY WINTER</h5>
-                    <p>Đón chào những ngày đông dịu dàng, Pantio mang đến cho các quý cô yêu thời trang một bản hòa ca
-                      hoàn hảo...</p>
+                    <h5><?= htmlspecialchars($post['title']) ?></h5>
+                    <!-- <a href="post_detail.php?id=<?= $post['id'] ?>" class="btn btn-danger">Đọc thêm...</a> -->
                   </div>
                 </div>
               </div>
-              <!-- Post 2 -->
-              <div class="col-md-4 col-sm-6">
-                <div class="post-card shadow-sm">
-                  <img src="image/blog4.jpg" alt="Urban Knit">
-                  <div class="post-content p-3">
-                    <h5>NEW COLLECTION | URBAN KNIT</h5>
-                    <p>Những cơn gió se lạnh đầu đông đã về, báo hiệu thời điểm nàng nên làm mới tủ đồ của mình...</p>
-                  </div>
-                </div>
-              </div>
-              <!-- Post 3 -->
-              <div class="col-md-4 col-sm-6">
-                <div class="post-card shadow-sm">
-                  <img src="image/blog3.jpg" alt="Moody Winter">
-                  <div class="post-content p-3">
-                    <h5>NEW COLLECTION | MOODY WINTER</h5>
-                    <p>BST lấy cảm hứng từ vẻ đẹp tự nhiên của mùa đông, mang đến sự ấm áp và thanh lịch...</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <?php endforeach; ?>
+          </div>
 
-            <!-- XU HƯỚNG THỜI TRANG -->
-            <div class="section-title text-center mt-5 mb-4">
-              <h2>XU HƯỚNG THỜI TRANG NỔI BẬT</h2>
-              <a href="#">XEM TẤT CẢ</a>
-            </div>
-            <div class="row g-4">
-              <!-- Post 1 -->
-              <div class="col-md-6 col-sm-12">
-                <div class="post-card shadow-sm">
-                  <img src="https://via.placeholder.com/600x400" alt="Xu hướng 1">
-                  <div class="post-content p-3">
-                    <h5>BST ÁO LEN ẤM ÁP CHO MÙA ĐÔNG</h5>
-                    <p>Khám phá những mẫu áo len được yêu thích nhất trong mùa đông năm nay...</p>
-                  </div>
-                </div>
-              </div>
-              <!-- Post 2 -->
-              <div class="col-md-6 col-sm-12">
-                <div class="post-card shadow-sm">
-                  <img src="https://via.placeholder.com/600x400" alt="Xu hướng 2">
-                  <div class="post-content p-3">
-                    <h5>PHONG CÁCH ĐƯỜNG PHỐ MÙA LẠNH</h5>
-                    <p>Cập nhật xu hướng thời trang đường phố với những item không thể thiếu...</p>
-                  </div>
+          <!-- XU HƯỚNG THỜI TRANG -->
+          <div class="section-title text-center mt-5 mb-4">
+            <h2>XU HƯỚNG THỜI TRANG NỔI BẬT</h2>
+            <a href="#">XEM TẤT CẢ</a>
+          </div>
+          <div class="row g-4">
+            <!-- Sample posts (can be dynamically generated later) -->
+            <div class="col-md-6 col-sm-12">
+              <div class="post-card shadow-sm">
+                <img src="https://via.placeholder.com/600x400" alt="Xu hướng 1" class="card-img-top">
+                <div class="post-content p-3">
+                  <h5>BST ÁO LEN ẤM ÁP CHO MÙA ĐÔNG</h5>
+                  <p>Khám phá những mẫu áo len được yêu thích nhất trong mùa đông năm nay...</p>
                 </div>
               </div>
             </div>
+            <div class="col-md-6 col-sm-12">
+              <div class="post-card shadow-sm">
+                <img src="https://via.placeholder.com/600x400" alt="Xu hướng 2" class="card-img-top">
+                <div class="post-content p-3">
+                  <h5>PHONG CÁCH ĐƯỜNG PHỐ MÙA LẠNH</h5>
+                  <p>Cập nhật xu hướng thời trang đường phố với những item không thể thiếu...</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-            <div class="section-title text-center mt-5 mb-4">
-              <h2>SỰ KIỆN & BỘ SƯU TẬP MỚI</h2>
-              <a href="#">XEM TẤT CẢ</a>
-            </div>
-            <div class="row g-4">
-              <!-- Post 1 -->
-              <div class="col-md-6 col-sm-12">
-                <div class="post-card shadow-sm">
-                  <img src="https://via.placeholder.com/600x400" alt="Sự kiện 1">
-                  <div class="post-content p-3">
-                    <h5>RA MẮT BST MOODY WINTER</h5>
-                    <p>Tham gia sự kiện ra mắt BST MOODY WINTER với nhiều ưu đãi hấp dẫn...</p>
-                  </div>
-                </div>
-              </div>
-              <!-- Post 2 -->
-              <div class="col-md-6 col-sm-12">
-                <div class="post-card shadow-sm">
-                  <img src="https://via.placeholder.com/600x400" alt="Sự kiện 2">
-                  <div class="post-content p-3">
-                    <h5>THỜI TRANG TRONG TẦM TAY</h5>
-                    <p>Trải nghiệm các thiết kế mới nhất từ Pantio, sự kiện giới thiệu BST đầu năm...</p>
-                  </div>
+          <!-- SỰ KIỆN & BỘ SƯU TẬP MỚI -->
+          <div class="section-title text-center mt-5 mb-4">
+            <h2>SỰ KIỆN & BỘ SƯU TẬP MỚI</h2>
+            <a href="#">XEM TẤT CẢ</a>
+          </div>
+          <div class="row g-4">
+            <div class="col-md-6 col-sm-12">
+              <div class="post-card shadow-sm">
+                <img src="https://via.placeholder.com/600x400" alt="Sự kiện 1" class="card-img-top">
+                <div class="post-content p-3">
+                  <h5>RA MẮT BST MOODY WINTER</h5>
+                  <p>Tham gia sự kiện ra mắt BST MOODY WINTER với nhiều ưu đãi hấp dẫn...</p>
                 </div>
               </div>
             </div>
-
+            <div class="col-md-6 col-sm-12">
+              <div class="post-card shadow-sm">
+                <img src="https://via.placeholder.com/600x400" alt="Sự kiện 2" class="card-img-top">
+                <div class="post-content p-3">
+                  <h5>THỜI TRANG TRONG TẦM TAY</h5>
+                  <p>Trải nghiệm các thiết kế mới nhất từ Pantio, sự kiện giới thiệu BST đầu năm...</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</body>
 
-      <?php require_once('footer.php'); ?>
+<?php require_once('footer.php'); ?>
+
+
+

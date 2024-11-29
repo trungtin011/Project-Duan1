@@ -2,6 +2,9 @@
 session_start();
 include "../Model/DBUntil.php";
 $error = "";
+$success_user = ""; // Thêm biến để lưu thông báo thành công
+$success_admin = "";
+
 // Xử lý đăng nhập từ form
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
@@ -27,13 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
 
             if ($user['role'] === 'admin') {
-                header("Location: admin_dashboard.php");
+                $success_admin = "Đăng nhập thành công! Chào mừng admin.";
             } else {
-                echo "<script>
-                    alert('Bạn đã đăng nhập thành công!');
-                    window.location.href = '../Controller/index.php';
-                </script>";
-                exit;
+                // Thông báo đăng nhập thành công
+                $success_user = "Đăng nhập thành công! Chào mừng bạn đến với trang chủ.";
             }
         } else {
             $error = "Sai mật khẩu.";
@@ -51,6 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Thêm SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -61,7 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             background-color: rgba(255, 255, 255, 0.5); /* Nền mờ nhẹ */
             /* Làm mờ ảnh nền */
         }
-
     </style>
 </head>
 
@@ -89,11 +90,48 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </label>
                 <a href="forgot-password.php" class="text-sm text-gray-500">Quên mật khẩu?</a>
             </div>
+
+            <!-- Hiển thị thông báo lỗi -->
             <?php if (!empty($error)): ?>
-                <div class="bg-red-200 p-2 mb-4 text-red-600">
-                    <?php echo htmlspecialchars($error); ?>
-                </div>
+                <script>
+                    Swal.fire({
+                        title: 'Lỗi',
+                        text: '<?php echo htmlspecialchars($error); ?>',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                </script>
             <?php endif; ?>
+
+            <!-- Hiển thị thông báo thành công và chuyển hướng tự động -->
+            <?php if (!empty($success_user)): ?>
+                <script>
+                    Swal.fire({
+                        title: 'Đăng nhập thành công!',
+                        text: '<?php echo htmlspecialchars($success_user); ?>',
+                        icon: 'success',
+                        timer: 1000,  
+                        showConfirmButton: false  // Không hiển thị nút "OK"
+                    }).then(() => {
+                        window.location.href = '../Controller/index.php';  // Chuyển hướng người dùng
+                    });
+                </script>
+            <?php endif; ?>
+
+            <?php if (!empty($success_admin)): ?>
+                <script>
+                    Swal.fire({
+                        title: 'Đăng nhập thành công!',
+                        text: '<?php echo htmlspecialchars($success_admin); ?>',
+                        icon: 'success',
+                        timer: 1000,  
+                        showConfirmButton: false 
+                    }).then(() => {
+                        window.location.href = '../View/admin_dashboard.php';  // Chuyển hướng người dùng
+                    });
+                </script>
+            <?php endif; ?>
+
             <button type="submit" class="w-full bg-black text-white py-2 rounded-md mb-4">Đăng nhập</button>
             <a href="register.php" class="w-full border border-gray-300 text-black py-2 rounded-md text-center block">
                 Đăng ký thành viên
