@@ -1,0 +1,63 @@
+<?php
+include "../Model/DBUntil.php";
+
+$db = new DBUntil(); // Kết nối cơ sở dữ liệu
+
+// Lấy ID sản phẩm từ URL
+$product_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if ($product_id) {
+    // Truy vấn sản phẩm dựa trên ID
+    $sql_product = "SELECT * FROM products WHERE product_id = $product_id";
+    $product = $db->select($sql_product);
+
+    // Kiểm tra nếu sản phẩm tồn tại
+    if (count($product) > 0) {
+        $product = $product[0]; // Lấy sản phẩm đầu tiên từ kết quả
+    } else {
+        // Chuyển hướng về trang danh sách sản phẩm nếu không tìm thấy sản phẩm
+        header("Location: product.php");
+        exit;
+    }
+} else {
+    // Chuyển hướng về trang danh sách sản phẩm nếu không có ID hợp lệ
+    header("Location: product.php");
+    exit;
+}
+
+?>
+<?php require_once('header.php') ?>
+
+<main class="mt-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <!-- Chi tiết sản phẩm -->
+            <div class="col-md-6">
+                <!-- Hình ảnh sản phẩm -->
+                <img src="<?php echo $product['image']; ?>" class="img-fluid" alt="<?php echo htmlspecialchars($product['name']); ?>">
+            </div>
+            <div class="col-md-6">
+                <!-- Thông tin sản phẩm -->
+                <h3 class="font-bold"><?php echo htmlspecialchars($product['name']); ?></h3>
+                <p class="text-muted">Mã sản phẩm: <?php echo $product['product_id']; ?></p>
+                <p class="font-semibold">Giá: ₫<?php echo number_format($product['price'], 0, ',', '.'); ?></p>
+                <p class="text-muted">Số lượng trong kho: <?php echo $product['stock_quantity']; ?></p>
+                
+                <form method="post" action="cart.php?action=add&id=<?php echo $product['product_id']; ?>">
+                    <div class="form-group mb-3">
+                        <label for="quantity">Số lượng</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="<?php echo $product['stock_quantity']; ?>" class="form-control w-25">
+                    </div>
+                    <button type="submit" class="btn btn-dark">Thêm vào giỏ hàng</button>
+                </form>
+
+                <div class="product-description mt-4">
+                    <h5>Mô tả sản phẩm</h5>
+                    <p><?php echo htmlspecialchars($product['description']); ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<?php require_once('footer.php') ?>
