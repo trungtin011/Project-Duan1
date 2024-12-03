@@ -7,15 +7,13 @@ if (session_status() === PHP_SESSION_NONE) {
 if (!isset($_SESSION['user_id'])) {
     $loginLink = "../View/login.php";
     $userName = "";
-    $avatar = "../View/image/default-avatar.png"; // Avatar mặc định
+    $avatar = "../assets/default-avatar.png";
 } else {
     $userName = $_SESSION['name'];
     $loginLink = "../View/account.php";
     $logoutLink = "../View/logout.php";
-    // Kiểm tra avatar trong session
-    $avatar = !empty($_SESSION['avatar']) && file_exists($_SESSION['avatar'])
-        ? $_SESSION['avatar']
-        : "../View/image/default-avatar.png"; // Sử dụng avatar mặc định nếu không tồn tại
+    $avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : "../assets/default-avatar.png";
+    // Thêm kiểm tra role admin
     $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 }
 ?>
@@ -28,8 +26,11 @@ if (!isset($_SESSION['user_id'])) {
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>H&amp;M Clone</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/d70c32c211.js" crossorigin="anonymous"></script>
@@ -119,6 +120,7 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 
 <body>
+
     <header class="header py-4">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-4">
@@ -134,7 +136,7 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="user-info">
                     <a class="text-md flex items-center" href="<?php echo $userName ? '#' : $loginLink; ?>">
                         <?php if ($userName): ?>
-                            <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar">
+                            <img src="<?php echo $avatar; ?>" alt="Avatar">
                             Chào, <?php echo htmlspecialchars($userName); ?>
                         <?php else: ?>
                             <i class="icon_action fa-solid fa-user"></i>

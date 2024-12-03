@@ -153,7 +153,7 @@ if (isset($_GET['id'])) {
           <?php foreach ($comments as $comment): ?>
             <li class="py-4 flex">
               <div class="w-10 h-10 rounded-full flex-shrink-0 overflow-hidden">
-                <img src="<?= htmlspecialchars($comment['avatar'] ?? 'image/default-avatar.png') ?>" alt="<?= htmlspecialchars($comment['name']) ?>" class="object-cover w-full h-full">
+                <img src="<?= htmlspecialchars($comment['avatar'] ?? 'default-avatar.png') ?>" alt="<?= htmlspecialchars($comment['name']) ?>" class="object-cover w-full h-full">
               </div>
               <div class="ml-4">
                 <div class="flex justify-between items-center">

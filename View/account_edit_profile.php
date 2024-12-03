@@ -35,23 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] !== UPLOAD_ERR_NO_FILE) {
         $avatar = $_FILES['avatar'];
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        $maxSize = 5 * 1024 * 1024; // Giới hạn 5MB
+        $maxSize = 20 * 1024 * 1024; // Giới hạn 20MB
 
         if (!in_array($avatar['type'], $allowedTypes)) {
             $errors[] = "Chỉ cho phép upload ảnh định dạng JPG, PNG, GIF.";
         } elseif ($avatar['size'] > $maxSize) {
-            $errors[] = "
-                <script>
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Dung lượng ảnh quá lớn',
-                        text: 'Vui lòng chọn ảnh dưới 5MB',
-                    });
-                    setTimeout(function() {
-                        window.location.href = './account.php?page=settings';
-                    }, 1500);
-                </script>
-            ";
+            $errors[] = "Dung lượng ảnh tối đa là 20MB.";
         } else {
             $uploadDir = '../View/uploads/';
             if (!is_dir($uploadDir)) {
@@ -130,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+<h2 class="h3 text-center">SỬA THÔNG TIN CỦA TÔI</h2>
 <?php if (!empty($errors)): ?>
     <div class="alert alert-danger">
         <ul>
@@ -140,7 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 <?php endif; ?>
 <form method="POST" enctype="multipart/form-data" class="bg-light p-5 mt-3">
-    <h2 class="h3 text-center mb-5">SỬA THÔNG TIN CỦA TÔI</h2>
     <h6 class="h6 text-md">Thông tin của tôi</h6>
     <div class="form-group mb-3">
         <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
@@ -162,6 +151,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label class="form-label">Địa Chỉ<span class="text-danger">*</span></label>
         <textarea class="form-control" name="address"><?= htmlspecialchars($user['address']) ?></textarea>
     </div>
-    <button type="submit" class="bg-black text-white w-100 py-3 text-md font-semibold mt-5">Lưu</button>
-    <a href="./account.php?page=settings" class="border border-dark text-dark w-100 py-3 text-md font-semibold mt-3 d-block text-center">Hủy</a>
+    <button type="submit" class="btn btn-primary w-100 mt-4">Lưu</button>
+    <a href="./account.php?page=settings" class="btn btn-secondary w-100 mt-3">Hủy</a>
 </form>
