@@ -1,10 +1,9 @@
 <?php
 include "Database.php";
 define("HOST", "localhost");
-define("DB_NAME", "duan");
+define("DB_NAME", "duan1");
 define("USERNAME", "root");
 define("PASSWORD", "");
-
 class DBUntil
 {
     public $conn = null;
@@ -160,4 +159,17 @@ class DBUntil
     public function getLastInsertId() {
         return $this->conn->lastInsertId(); // Trả về ID của bản ghi vừa được thêm vào
     }
+
+// Phương thức fetchOne: Lấy dữ liệu của một bản ghi duy nhất
+public function fetchOne($sql, $params = [])
+{
+    if ($this->conn == null) {
+        die("Không thể kết nối cơ sở dữ liệu");
+    }
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute($params);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    return $stmt->fetch();  // Trả về bản ghi đầu tiên (chỉ một bản ghi)
+}
+
 }

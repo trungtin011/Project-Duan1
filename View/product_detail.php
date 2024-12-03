@@ -1,5 +1,9 @@
-<?php
+    <?php
 include "../Model/DBUntil.php";
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $db = new DBUntil();
 
@@ -7,26 +11,96 @@ $db = new DBUntil();
 $product_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($product_id) {
-    $sql_product = "SELECT * FROM products WHERE product_id = $product_id";
-    $product = $db->select($sql_product);
+    // Truy vấn sản phẩm
+    $sql_product = "SELECT * FROM products WHERE product_id = :product_id";
+    $product = $db->select($sql_product, [':product_id' => $product_id]);
 
-    if (count($product) > 0) {
+    if (!empty($product)) {
         $product = $product[0];
     } else {
         header("Location: product.php");
         exit;
     }
+
+    // Truy vấn danh sách size
+    $sizes = $db->select("SELECT size FROM product_sizes WHERE product_id = :product_id", [':product_id' => $product_id]);
+
+    // Truy vấn danh sách color
+    $colors = $db->select("SELECT color FROM product_colors WHERE product_id = :product_id", [':product_id' => $product_id]);
 } else {
     header("Location: product.php");
     exit;
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    if (!isset($_SESSION['user_id'])) {
+        // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+        echo "<script>
+        alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!');
+        window.location.href = 'login.php';
+        </script>";
+        exit();
+    }
+
+    // Lấy dữ liệu từ form
+    $quantity = max(1, (int)($_POST['quantity'] ?? 1)); // Đảm bảo số lượng ít nhất là 1
+    $selected_size = $_POST['size'] ?? null; // Kích cỡ được chọn
+    $selected_color = $_POST['color'] ?? null; // Màu sắc được chọn
+
+    // Kiểm tra các điều kiện
+    if (!$selected_size) {
+        echo "<script>alert('Vui lòng chọn kích cỡ.');</script>";
+    } elseif (!$selected_color) {
+        echo "<script>alert('Vui lòng chọn màu sắc.');</script>";
+    } elseif ($quantity > $product['stock_quantity']) {
+        echo "<script>alert('Số lượng không đủ trong kho.');</script>";
+    } else {
+        // Khởi tạo giỏ hàng nếu chưa có
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
+
+        // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
+        $found = false;
+        foreach ($_SESSION['cart'] as &$item) {
+            if ($item['product_id'] === $product_id && $item['size'] === $selected_size && $item['color'] === $selected_color) {
+                // Nếu sản phẩm đã có trong giỏ hàng, cập nhật số lượng
+                $item['quantity'] += $quantity;
+                $found = true;
+                break;
+            }
+        }
+
+        // Nếu sản phẩm chưa có, thêm mới vào giỏ hàng
+        if (!$found) {
+            $_SESSION['cart'][] = [
+                'product_id' => $product['product_id'],
+                'name' => $product['name'],
+                'price' => $product['price'],
+                'image' => $product['image'],
+                'size' => $selected_size,
+                'color' => $selected_color,
+                'quantity' => $quantity
+            ];
+        }
+
+        // Chuyển hướng đến trang giỏ hàng
+        header("Location: cart.php");
+        exit;
+    }
+}
+
+
+
 ?>
+
 <?php include('./header.php'); ?>
-<main class="product-detail px-5">
+
+<main class="product-detail px-5 mt-5">
     <div class="product-description flex gap-4 justify-content-around">
         <div class="column1">
             <div>
-                <img src="<?php echo $product['image']; ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
             </div>
         </div>
         <div class="column2">
@@ -40,16 +114,55 @@ if ($product_id) {
                         <span>₫<?php echo number_format($product['price'], 0, ',', '.'); ?></span>
                     </div>
                 </section>
-                <p class="text-sm mt-4 font-semibold">Màu bè nhạt</p>
-                <div class="image_child">
-                    <img src="" alt="" width="60" height="90">
-                </div>
-                <div class="size_child">
-                    <p class="text-sm mt-4 mb-2 font-semibold">Kích Cỡ</p>
-                    <!-- Size -->
-                    
-                </div>
-                <button class="mt-5 bg-black text-light w-100 py-3 text-md font-semibold"><a href="../View/cart.php?id=<?php echo htmlspecialchars($product_id)?>">Thêm vào giỏ hàng</a></button>
+                <form method="POST" action="">
+                    <!-- Kích cỡ -->
+                    <div class="mt-4">
+                        <label class="block text-sm font-semibold">Kích cỡ</label>
+                        <div class="flex gap-2 mt-2">
+                            <?php foreach ($sizes as $size): ?>
+                                <label class="relative">
+                                    <input type="radio"
+                                        name="size"
+                                        value="<?php echo htmlspecialchars($size['size']); ?>"
+                                        class="hidden">
+                                    <div class="block border border-gray-400 px-4 py-2 rounded-md cursor-pointer transition-all duration-300 size-option">
+                                        <?php echo htmlspecialchars($size['size']); ?>
+                                    </div>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+
+                    <!-- Màu sắc -->
+                    <div class="mt-4">
+                        <label class="block text-sm font-semibold">Màu sắc</label>
+                        <div class="flex gap-2 mt-2">
+                            <?php foreach ($colors as $color): ?>
+                                <label class="relative">
+                                    <input type="radio"
+                                        name="color"
+                                        value="<?php echo htmlspecialchars($color['color']); ?>"
+                                        class="hidden">
+                                    <div class="block w-8 h-8 rounded-full cursor-pointer transition-all duration-300 color-option"
+                                        style="background-color: <?php echo htmlspecialchars($color['color']); ?>; border: 2px solid #000;">
+                                    </div>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+
+                    <!-- Số lượng -->
+                    <div class="size_child">
+                        <p class="text-sm mt-4 mb-2 font-semibold">Số lượng</p>
+                        <input type="number" name="quantity" value="1" min="1" max="<?php echo $product['stock_quantity']; ?>" class="form-control" style="width: 80px;">
+                    </div>
+
+                    <!-- Nút Thêm vào giỏ hàng -->
+                    <button type="submit" name="add_to_cart" class="mt-5 bg-black text-light w-100 py-3 text-md font-semibold">Thêm vào giỏ hàng</button>
+                </form>
+
+
+
                 <div class="mt-5 flex gap-2">
                     <div class="icon text-center pt-1">
                         <i class="fa-solid fa-exclamation border border-dark rounded-circle"></i>
@@ -58,6 +171,7 @@ if ($product_id) {
                         Giá sản phẩm đã bao gồm VAT, không bao gồm phí giao hàng...
                     </p>
                 </div>
+
                 <div class="product-accordion">
                     <div class="accordion-header">
                         <h3 class="accordion-title">Mô tả & độ vừa vặn</h3>
@@ -66,11 +180,8 @@ if ($product_id) {
                     <div class="accordion-content">
                         <div class="accordion-content-inner">
                             <div class="product-info">
-                                <div class="product-info-row">
-                                    <span class="product-info-label">HOLIDAY 2024</span> <span>•</span> <span class="product-info-new">Hàng mới về</span>
-                                </div>
                                 <div class="product-info-row font-semibold text-sm mt-3">
-                                    <?php echo htmlspecialchars($product['description']); ?>
+                                    <?php echo nl2br(htmlspecialchars($product['description'])); ?>
                                 </div>
                                 <div class="product-code mt-1">
                                     <span class="product-info-label">Mã số sản phẩm: <?php echo $product['product_id']; ?></span>
@@ -161,165 +272,50 @@ if ($product_id) {
             </div>
         </div>
     </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    <div class="main m-auto mt-5 mb-5">
-        <div class="row">
-            <h5 class="card-title font-bold text-xl mb-3 p-0">Sản phẩm yêu thích đã chọn</h5>
-            <div class="flex justify-content-between gap-4 p-0">
-                <div class="group_product_choose">
-                    <div class="relative text-light">
-                        <img src="https://images.pexels.com/photos/2916814/pexels-photo-2916814.jpeg?cs=srgb&dl=pexels-vanyaoboleninov-2916814.jpg&fm=jpg"
-                            alt="Sản phẩm" width="100%" height="100%">
-                        <i class="fa-regular fa-heart absolute bottom-2 right-2 text-2xl"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name mt-1">Áo polo COOLMAX® Slim Fit</div>
-                        <div class="text-sm flex gap-2">
-                            <span class="text-red-600">đ199,000</span>
-                            <span class="text-decoration-line-through">đ399,000</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="group_product_choose">
-                    <div class="relative text-light">
-                        <img src="https://images.pexels.com/photos/2916814/pexels-photo-2916814.jpeg?cs=srgb&dl=pexels-vanyaoboleninov-2916814.jpg&fm=jpg"
-                            alt="Sản phẩm" width="100%" height="100%">
-                        <i class="fa-regular fa-heart absolute bottom-2 right-2 text-2xl"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name mt-1">Áo polo COOLMAX® Slim Fit</div>
-                        <div class="text-sm flex gap-2">
-                            <span class="text-red-600">đ199,000</span>
-                            <span class="text-decoration-line-through">đ399,000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="group_product_choose">
-                    <div class="relative text-light">
-                        <img src="https://images.pexels.com/photos/2916814/pexels-photo-2916814.jpeg?cs=srgb&dl=pexels-vanyaoboleninov-2916814.jpg&fm=jpg"
-                            alt="Sản phẩm" width="100%" height="100%">
-                        <i class="fa-regular fa-heart absolute bottom-2 right-2 text-2xl"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name mt-1">Áo polo COOLMAX® Slim Fit</div>
-                        <div class="text-sm flex gap-2">
-                            <span class="text-red-600">đ199,000</span>
-                            <span class="text-decoration-line-through">đ399,000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="group_product_choose">
-                    <div class="relative text-light">
-                        <img src="https://images.pexels.com/photos/2916814/pexels-photo-2916814.jpeg?cs=srgb&dl=pexels-vanyaoboleninov-2916814.jpg&fm=jpg"
-                            alt="Sản phẩm" width="100%" height="100%">
-                        <i class="fa-regular fa-heart absolute bottom-2 right-2 text-2xl"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name mt-1">Áo polo COOLMAX® Slim Fit</div>
-                        <div class="text-sm flex gap-2">
-                            <span class="text-red-600">đ199,000</span>
-                            <span class="text-decoration-line-through">đ399,000</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="main m-auto mt-5 mb-5">
-        <div class="row">
-            <h5 class="card-title font-bold text-xl mb-3 p-0">Được mua nhiều</h5>
-            <div class="flex justify-content-between gap-4 p-0">
-                <div class="group_product_choose">
-                    <div class="relative text-light">
-                        <img class="w-[270px] h-[350px]" src="<?= $product['image'] ?>"
-                            alt="Sản phẩm">
-                        <i class="fa-regular fa-heart absolute bottom-2 right-2 text-2xl"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name mt-1">Áo polo COOLMAX® Slim Fit</div>
-                        <div class="text-sm flex gap-2">
-                            <span class="text-red-600">đ199,000</span>
-                            <span class="text-decoration-line-through">đ399,000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="group_product_choose">
-                    <div class="relative text-light">
-                        <img class="w-[270px] h-[350px]" src="<?= $product['image'] ?>"
-                            alt="Sản phẩm">
-                        <i class="fa-regular fa-heart absolute bottom-2 right-2 text-2xl"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name mt-1">Áo polo COOLMAX® Slim Fit</div>
-                        <div class="text-sm flex gap-2">
-                            <span class="text-red-600">đ199,000</span>
-                            <span class="text-decoration-line-through">đ399,000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="group_product_choose">
-                    <div class="relative text-light">
-                        <img class="w-[270px] h-[350px]" src="<?= $product['image'] ?>"
-                            alt="Sản phẩm">
-                        <i class="fa-regular fa-heart absolute bottom-2 right-2 text-2xl"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name mt-1">Áo polo COOLMAX® Slim Fit</div>
-                        <div class="text-sm flex gap-2">
-                            <span class="text-red-600">đ199,000</span>
-                            <span class="text-decoration-line-through">đ399,000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="group_product_choose">
-                    <div class="relative text-light">
-                        <img class="w-[270px] h-[350px]" src="<?= $product['image'] ?>"
-                            alt="Sản phẩm">
-                        <i class="fa-regular fa-heart absolute bottom-2 right-2 text-2xl"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name mt-1">Áo polo COOLMAX® Slim Fit</div>
-                        <div class="text-sm flex gap-2">
-                            <span class="text-red-600">đ199,000</span>
-                            <span class="text-decoration-line-through">đ399,000</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </main>
-
-<!-- Footer -->
-<?php require_once('footer.php') ?>
-
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Xử lý khi chọn kích cỡ
+        document.querySelectorAll(".size-option").forEach(function(sizeOption) {
+            sizeOption.addEventListener("click", function() {
+                // Xóa trạng thái 'được chọn' khỏi tất cả các kích cỡ
+                document.querySelectorAll(".size-option").forEach(function(el) {
+                    el.classList.remove("bg-blue-500", "text-white");
+                    el.classList.add("border-gray-400");
+                });
+                // Thêm trạng thái 'được chọn' cho kích cỡ hiện tại
+                this.classList.add("bg-blue-500", "text-white");
+                this.classList.remove("border-gray-400");
+                // Đánh dấu input radio tương ứng
+                this.previousElementSibling.checked = true;
+            });
+        });
+
+        // Xử lý khi chọn màu sắc
+        document.querySelectorAll(".color-option").forEach(function(colorOption) {
+            colorOption.addEventListener("click", function() {
+                // Xóa trạng thái 'được chọn' khỏi tất cả các màu
+                document.querySelectorAll(".color-option").forEach(function(el) {
+                    el.style.borderColor = "#000";
+                });
+                // Thêm trạng thái 'được chọn' cho màu hiện tại
+                this.style.borderColor = "blue";
+                // Đánh dấu input radio tương ứng
+                this.previousElementSibling.checked = true;
+            });
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
-        // Lấy tất cả các phần tử accordion-header và accordion-content
         const accordionHeaders = document.querySelectorAll('.accordion-header');
 
         accordionHeaders.forEach(header => {
             header.addEventListener('click', function() {
-                // Toggle active class cho phần tử header được click
                 this.classList.toggle('active');
 
-                // Lấy phần tử accordion-content tương ứng và toggle active class cho nó
                 const accordionContent = this.nextElementSibling;
                 accordionContent.classList.toggle('active');
 
-                // Điều chỉnh mũi tên và tiêu đề
                 const h3 = this.querySelector('.accordion-title');
                 const arrow = this.querySelector('.arrow');
                 if (this.classList.contains('active')) {
@@ -348,3 +344,5 @@ if ($product_id) {
         }
     });
 </script>
+
+<?php include('./footer.php'); ?>

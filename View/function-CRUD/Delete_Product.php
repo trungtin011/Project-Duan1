@@ -1,38 +1,45 @@
 <?php
-include '../../Model/DBUntil.php';
+require_once '../Model/DBUntil.php';
 
-$db = new DBUntil();
-$response = ['success' => false, 'message' => ''];
+header('Content-Type: application/json');
 
+// Kiểm tra ID sản phẩm
 if (isset($_GET['id'])) {
     $productId = $_GET['id'];
+    $db = new DBUntil();
 
     try {
-        // Kiểm tra sản phẩm có tồn tại
-        $sqlCheck = "SELECT * FROM products WHERE product_id = ?";
-        $product = $db->select($sqlCheck, [$productId]);
-
-        if (empty($product)) {
-            $response['message'] = "Sản phẩm không tồn tại!";
-        } else {
-            // Xóa sản phẩm
-            $sqlDelete = "DELETE FROM products WHERE product_id = ?";
-            $result = $db->execute($sqlDelete, [$productId]);
-
-            if ($result) {
-                $response['success'] = true;
-                $response['message'] = "Sản phẩm đã được xóa thành công!";
-            } else {
-                $response['message'] = "Không thể xóa sản phẩm. Vui lòng thử lại!";
-            }
+        // Kiểm tra sản phẩm có tồn tại trong bảng products
+        $productExists = $db->select("SELECT product_id FROM products WHERE product_id = ?", [$productId]);
+        if (empty($productExists)) {
+            echo json_encode(['success' => false, 'message' => 'Sản phẩm không tồn tại!']);
+            exit();
         }
-    } catch (Exception $e) {
-        // Ghi lỗi chi tiết
-        $response['message'] = "Đã có lỗi xảy ra: {$e->getMessage()}";
-        // Bạn có thể ghi lỗi ra file log để kiểm tra chi tiết
-        error_log("Error deleting product: " . $e->getMessage());
-    }
-}
 
-// Trả về phản hồi dưới dạng JSON
-echo json_encode($response);
+        // Kiểm tra sản phẩm có liên quan trong bảng order_items (nếu có)
+        $productExistsInOrders = $db->select("SELECT * FROM order_items WHERE product_id = ?", [$productId]);
+        if (!empty($productExistsInOrders)) {
+            echo json_encode(['success' => false, 'message' => 'Sản phẩm này không thể xóa vì đã được đặt trong đơn hàng!']);
+            exit();
+        }
+
+        // Tắt kiểm tra ràng buộc foreign key tạm thời
+        $db->execute("SET foreign_key_checks = 0");
+
+        // Xóa các bản ghi trong bảng product_colors và product_sizes
+        $db->execute("DELETE FROM product_colors WHERE product_id = ?", [$productId]);
+        $db->execute("DELETE FROM product_sizes WHERE product_id = ?", [$productId]);
+
+        // Xóa sản phẩm khỏi bảng products
+        $db->execute("DELETE FROM products WHERE product_id = ?", [$productId]);
+
+        // Bật lại kiểm tra ràng buộc foreign key
+        $db->execute("SET foreign_key_checks = 1");
+
+        echo json_encode(['success' => true, 'message' => 'Sản phẩm đã được xóa thành công!']);
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()]);
+    }
+} else {
+    echo json_encode(['success' => false, 'message' => 'ID sản phẩm không hợp lệ!']);
+}
