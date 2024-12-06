@@ -4,12 +4,12 @@ session_start();
 if (!isset($_SESSION['user_id'])) {
     $loginLink = "../View/login.php";
     $userName = "";
-    $avatar = "../assets/default-avatar.png";
+    $avatar = "../image/default-avatar.png";
 } else {
     $userName = $_SESSION['name'];
     $loginLink = "../View/account.php";
     $logoutLink = "../View/logout.php";
-    $avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : "../assets/default-avatar.png";
+    $avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : "../image/default-avatar.png";
     // Thêm kiểm tra role admin
     $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 }
@@ -230,7 +230,7 @@ if (!isset($_SESSION['user_id'])) {
                             <a class="nav-link dropdown-toggle text-dark" href="<?php echo $userName ? '#' : $loginLink; ?>" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <?php if ($userName): ?>
-                                    <img src="<?php echo $avatar; ?>" alt="Avatar" class="img-profile rounded-circle mr-2">
+                                    <img src="image/<?php echo $avatar; ?>" alt="Avatar" class="img-profile rounded-circle mr-2">
                                     Chào, <?php echo htmlspecialchars($userName); ?>
                                 <?php else: ?>
                                     <i class="icon_action fa-solid fa-user"></i>

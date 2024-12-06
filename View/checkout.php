@@ -47,9 +47,11 @@ if (isset($_POST['promo_code']) && !empty($_POST['promo_code'])) {
     );
 
     if ($promo) {
+        $_SESSION['promo_code'] = $promo_code; // Lưu mã giảm giá vào session
         $discount = $promo['discount'];
         echo "<script>alert('Mã giảm giá hợp lệ! Bạn đã được giảm $discount%.');</script>";
     } else {
+        $_SESSION['promo_code'] = ''; // Nếu mã không hợp lệ thì xoá session
         echo "<script>alert('Mã giảm giá không hợp lệ hoặc đã hết hạn.');</script>";
     }
 }
@@ -92,16 +94,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     $order_data = [
         'user_id' => $user_id,
         'total_amount' => $total_with_discount,
-        'status' => $payment_method === 'cod' ? 'completed' : 'pending',
+        'status' => $payment_method === 'cod' ? 'completed' : 'pending', // Trạng thái đơn hàng
         'payment_method' => $payment_method,
-        'shipping_address' => $shipping_address
+        'shipping_address' => $shipping_address,
+        'order_date' => date('Y-m-d H:i:s') // Thêm ngày đặt hàng nếu cần
     ];
 
+    // Gọi hàm insert
     $order_id = $db->insert('orders', $order_data);
 
     if (!$order_id) {
-        echo "<script>alert('Đặt hàng thất bại, vui lòng thử lại!');</script>";
-        exit();
+        die("Không thể thêm đơn hàng!");
     }
 
     // Lưu chi tiết đơn hàng
@@ -127,7 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
         header("Location: thank_you.php?order_id=$order_id");
     } elseif ($payment_method === 'vnpay') {
         header("Location: vnpay_php/vnpay_pay.php?order_id=$order_id");
-
     }
     exit();
 }
@@ -197,15 +199,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                                 </label>
                             </div>
                             <div class="form-check mt-2">
-    <input class="form-check-input" type="radio" name="payment_method" id="payment_vnpay" value="vnpay" required>
-    <label class="form-check-label" for="payment_vnpay">
-        Thanh toán qua VNPAY
-    </label>
-</div>
+                                <input class="form-check-input" type="radio" name="payment_method" id="payment_vnpay" value="vnpay" required>
+                                <label class="form-check-label" for="payment_vnpay">
+                                    Thanh toán qua VNPAY
+                                </label>
+                            </div>
 
-  
-                        <!-- Nút đặt hàng -->
-                        <button type="submit" name="place_order" class="w-full py-2 bg-black text-white text-md font-semibold rounded-lg mt-5 hover:bg-gray-800 transition">Đặt hàng</button>
+                            <!-- Nút đặt hàng -->
+                            <button type="submit" name="place_order" class="w-full py-2 bg-black text-white text-md font-semibold rounded-lg mt-5 hover:bg-gray-800 transition">Đặt hàng</button>
+                        </div>
                     </div>
                 </div>
             </div>

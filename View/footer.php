@@ -1,4 +1,4 @@
-<footer class="bg-gray-200 py-8">
+<footer class="py-8">
     <div class="container banner_footer">
         <div class="banner_footer_item">
             <h4 class="font-bold mb-4 hd_footer">
@@ -109,7 +109,7 @@
                 <br>
                 <li>
                     <a class="read_more text-md" href="#">
-                        <button class="text-dark">Đọc thêm <i class="fa fa-arrow-right ml-2"></i></button>
+                        <button class="">Đọc thêm <i class="fa fa-arrow-right ml-2"></i></button>
                     </a>
                 </li>
             </ul>
@@ -130,3 +130,18 @@
 </body>
 
 </html>
+
+<style>
+    footer {
+        background-color: black;
+        color: white;
+    }
+
+    footer .banner_footer_item a {
+        color: white;
+    }
+
+    .read_more button {
+        border-bottom: 1px solid white;
+    }
+</style>

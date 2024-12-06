@@ -2,12 +2,12 @@
 if (!isset($_SESSION['user_id'])) {
     $loginLink = "../View/login.php";  // Đường dẫn đến trang đăng nhập nếu chưa đăng nhập
     $userName = "";  // Nếu chưa đăng nhập, không có tên người dùng
-    $avatar = "../assets/default-avatar.png";  // Ảnh đại diện mặc định
+    $avatar = "../image/default-avatar.png";  // Ảnh đại diện mặc định
 } else {
     $userName = $_SESSION['name'];  // Lấy tên người dùng từ session
     $loginLink = "#";  // Link đến trang cá nhân của người dùng
     $logoutLink = "../View/logout.php";  // Đường dẫn đến trang đăng xuất
-    $avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : "../assets/default-avatar.png";  // Ảnh đại diện từ session hoặc ảnh mặc định
+    $avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : "../image/default-avatar.png";  // Ảnh đại diện từ session hoặc ảnh mặc định
 }
 ?>
 <?php require_once('header.php'); ?>
@@ -19,7 +19,8 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="user-info">
                     <a class="text-md flex items-center" href="<?php echo $userName ? '#' : $loginLink; ?>">
                         <?php if ($userName): ?>
-                            <img src="<?php echo $avatar; ?>" alt="Avatar">
+                            <!-- <img src="<?php echo $avatar; ?>" alt="Avatar"> -->
+                            <img src="<?= htmlspecialchars($avatar ?? 'image/default-avatar.png') ?>" alt="<?= htmlspecialchars($comment['name']) ?>" class="object-cover w-full h-full">
                             <?php echo htmlspecialchars($userName); ?>
                         <?php else: ?>
                             <i class="icon_action fa-solid fa-user"></i>
@@ -28,6 +29,8 @@ if (!isset($_SESSION['user_id'])) {
                     </a>
                 </div>
             </h2>
+            <!-- Icon setting -->
+            <a href="./account.php?page=settings"><i class="fa-solid fa-gear text-3xl"></i></a>
         </div>
         <div class="point p-4 shadow-sm">
             <h5 class="font-bold text-3xl">0 Điểm</h5>
@@ -150,9 +153,12 @@ if (!isset($_SESSION['user_id'])) {
             'settings' => 'account_setting.php',
             'point' => 'account_point.php',
             'contact' => 'account_contact.php',
-            'product_reviews' => 'account_product_reviews.php',
+            'product_reviews' => 'account_product_previews.php',
             'edit_profile' => 'account_edit_profile.php',
             'order_detail' => 'account_order_detail.php',
+            'edit_address' => 'account_edit_address.php',
+            'add_address' => 'account_add_address.php',
+            'delete_address' => '../View/function-CRUD/Delete_Address.php',
         ];
 
         // Kiểm tra nếu 'page' tồn tại và hợp lệ, nếu không thì đặt trang mặc định là 'home'
@@ -161,8 +167,8 @@ if (!isset($_SESSION['user_id'])) {
             include $pages[$page];
         } else {
             echo "<p>Chọn một mục từ menu hoặc trang không tồn tại.</p>";
-            }
-            ?>
+        }
+        ?>
     </main>
 </div>
 <br>

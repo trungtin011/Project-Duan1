@@ -111,9 +111,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         text: '<?php echo htmlspecialchars($success_user); ?>',
                         icon: 'success',
                         timer: 1000,  
-                        showConfirmButton: false  
+                        showConfirmButton: false  // Không hiển thị nút "OK"
                     }).then(() => {
-                        window.location.href = '../Controller/index.php';
+                        window.location.href = '../Controller/index.php';  // Chuyển hướng người dùng
                     });
                 </script>
             <?php endif; ?>
@@ -127,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         timer: 1000,  
                         showConfirmButton: false 
                     }).then(() => {
-                        window.location.href = '../View/admin_dashboard.php'; 
+                        window.location.href = '../View/admin_dashboard.php';  // Chuyển hướng người dùng
                     });
                 </script>
             <?php endif; ?>
